@@ -2,6 +2,7 @@ package Net::Launchpad;
 
 use Mojo::Base -base;
 use Mojo::UserAgent;
+use Mojo::URL;
 
 use Net::OAuth;
 $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0;
@@ -9,52 +10,21 @@ $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0;
 our $VERSION = '0.99_1';
 
 has 'ua' => sub { my $self = shift; Mojo::UserAgent->new };
-has staging => 0;
+has 'staging' => 0;
 has 'consumer_key';
+has 'callback_uri';
 has 'access_token';
 has 'access_token_secret';
-
-sub request_token_url {
+has 'params' => sub {
     my $self = shift;
-    if ($self->staging) {
-        'https://staging.launchpad.net/+request-token';
-    }
-    else {
-        'https://launchpad.net/+request-token';
-    }
-}
+    return {
+        consumer_key => $self->consumer_key,
+        callback_uri => $self->callback_uri
+    };
 
-sub access_token_url {
-    my $self = shift;
-    if ($self->staging) {
-        'https://staging.launchpad.net/+access-token';
-    }
-    else {
-        'https://launchpad.net/+access-token';
-    }
-}
+};
 
-sub authorize_token_url {
-    my $self = shift;
-    if ($self->staging) {
-        'https://staging.launchpad.net/+authorize-token';
-    }
-    else {
-        'https://launchpad.net/+authorize-token';
-    }
-}
-
-sub api_url {
-    my $self = shift;
-    if ($self->staging) {
-        'https://api.staging.launchpad.net/1.0';
-    }
-    else {
-        'https://api.launchpad.net/1.0';
-    }
-}
-
-sub _nonce {
+has 'nonce' => sub {
     my $self  = shift;
     my @a     = ('A' .. 'Z', 'a' .. 'z', 0 .. 9);
     my $nonce = '';
@@ -62,6 +32,33 @@ sub _nonce {
         $nonce .= $a[rand(scalar(@a))];
     }
     return $nonce;
+};
+
+sub api_host {
+    my $self = shift;
+    if ($self->staging) {
+        return Mojo::URL->new('https://staging.launchpad.net');
+    }
+    return Mojo::URL->new('https://launchpad.net/');
+}
+
+sub request_token_url {
+    my $self = shift;
+    return $self->api_host->path('+request-token');
+}
+
+sub access_token_url {
+    my $self = shift;
+    return $self->api_host->path('+access-token');
+}
+
+sub authorize_token_url {
+    my $self = shift;
+    return $self->api_host->path('+authorize-token');
+}
+
+sub oauth1 {
+  my $self = shift;
 }
 
 sub login_with_creds {
