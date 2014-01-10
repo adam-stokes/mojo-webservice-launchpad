@@ -2,26 +2,27 @@ package Net::Launchpad;
 
 use Mojo::Base -base;
 use Mojo::UserAgent;
+use Mojo::JSON;
 use Mojo::URL;
-
-use Net::OAuth;
-$Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0;
-
+use Mojo::Parameters;
+use DDP;
 our $VERSION = '0.99_1';
 
-has 'ua' => sub { my $self = shift; Mojo::UserAgent->new };
 has 'staging' => 0;
 has 'consumer_key';
 has 'callback_uri';
-has 'access_token';
-has 'access_token_secret';
-has 'params' => sub {
-    my $self = shift;
-    return {
-        consumer_key => $self->consumer_key,
-        callback_uri => $self->callback_uri
-    };
 
+has 'json' => sub {
+    my $self = shift;
+    my $json = Mojo::JSON->new;
+    return $json;
+};
+
+has 'ua' => sub {
+    my $self = shift;
+    my $ua = Mojo::UserAgent->new;
+    $ua->transactor->name("Net::Salesforce/$VERSION");
+    return $ua;
 };
 
 has 'nonce' => sub {
@@ -34,6 +35,21 @@ has 'nonce' => sub {
     return $nonce;
 };
 
+has 'params' => sub {
+    my $self = shift;
+    return {
+        oauth_callback         => $self->callback_uri,
+        oauth_consumer_key     => $self->consumer_key,
+        oauth_version          => '1.0a',
+        oauth_signature_method => 'PLAINTEXT',
+        oauth_signature        => '&',
+        oauth_token            => undef,
+        oauth_token_secret     => undef,
+        oauth_timestamp        => time,
+        oauth_nonce            => $self->nonce
+    };
+};
+
 sub api_host {
     my $self = shift;
     if ($self->staging) {
@@ -42,70 +58,53 @@ sub api_host {
     return Mojo::URL->new('https://launchpad.net/');
 }
 
-sub request_token_url {
+sub request_token_path {
     my $self = shift;
     return $self->api_host->path('+request-token');
 }
 
-sub access_token_url {
+sub access_token_path {
     my $self = shift;
     return $self->api_host->path('+access-token');
 }
 
-sub authorize_token_url {
+sub authorize_token_path {
     my $self = shift;
     return $self->api_host->path('+authorize-token');
 }
 
-sub oauth1 {
-  my $self = shift;
+sub request_token {
+    my $self = shift;
+    my $tx =
+      $self->ua->post(
+        $self->request_token_path->to_string => form => $self->params);
+    die $tx->res->body unless $tx->success;
+    my $params = Mojo::Parameters->new($tx->res->body);
+    my $token = $params->param('oauth_token');
+    my $secret = $params->param('oauth_token_secret');
+    return ($token, $secret);
 }
 
-sub login_with_creds {
-    my $self    = shift;
-    my $request = Net::OAuth->request('consumer')->new(
-        consumer_key     => $self->consumer_key,
-        consumer_secret  => '',
-        request_url      => $self->request_token_url,
-        request_method   => 'POST',
-        signature_method => 'PLAINTEXT',
-        timestamp        => time,
-        nonce            => $self->_nonce,
-    );
+sub authorize_token {
+    my ($self, $token, $token_secret) = @_;
+    $self->params->{oauth_token} = $token;
+    $self->params->{oauth_token_secret} = $token_secret;
+    my $url = $self->authorize_token_path->query($self->params);
+    return $url->to_string;
+}
 
-    $request->sign;
-    my $res =
-      $self->ua->post($request->to_url => $request->to_post_body );
-    die "Failed to get response: ". $res->res->message unless $res->res->code == 200;
-    my $response =
-      Net::OAuth->response('request token')->from_post_body($res->res->body);
-    my $_token        = $response->token;
-    my $_token_secret = $response->token_secret;
-    say
-      "Go here in your browser, hit [ENTER] once you've approved on launchpad.net";
-    say $self->authorize_token_url . "?oauth_token=" . $_token;
-    <STDIN>;
-
-    $request = Net::OAuth->request('access token')->new(
-        consumer_key     => $self->consumer_key,
-        consumer_secret  => '',
-        token            => $_token,
-        token_secret     => $_token_secret,
-        request_url      => $self->access_token_url,
-        request_method   => 'POST',
-        signature_method => 'PLAINTEXT',
-        timestamp        => time,
-        nonce            => $self->_nonce
-    );
-
-    $request->sign;
-    $res = $self->ua->post($request->to_url => $request->to_post_body);
-    die "Failed to get response" unless $res->res->code == 200;
-    $response =
-      Net::OAuth->response('access token')->from_post_body($res->res->body);
-    $self->access_token($response->token);
-    $self->access_token_secret($response->token_secret);
-    return;
+sub access_token {
+    my ($self, $token, $secret) = @_;
+    $self->params->{oauth_token} = $token;
+    $self->params->{oauth_token_secret} = $secret;
+    $self->params->{oauth_signature} =
+      '&' . $secret;
+    my $tx =
+      $self->ua->post(
+        $self->access_token_path->to_string => form => $self->params);
+    die $tx->res->body unless $tx->success;
+    my $params = Mojo::Parameters->new($tx->res->body);
+    return ($params->param('oauth_token'), $params->param('oauth_token_secret'));
 }
 
 1;
@@ -130,37 +129,57 @@ Boolean to interact with staging server or production.
 
 A L<Mojo::UserAgent>.
 
+=head2 B<json>
+
+A L<Mojo::JSON>.
+
 =head2 B<consumer_key>
 
 Holds the string that identifies your application.
 
     $lp->consumer_key('my-app-name');
 
-=head2 B<access_token>
+=head2 B<callback_uri>
 
-Token received from authorized request
+Callback url to redirect use back to once authenticated.
 
-=head2 B<access_token_secret>
+=head2 B<nonce>
 
-Token secret received from authorized request
+Nonce
+
+=head2 B<params>
+
+OAuth 1.0a parameters used in request, authenticate, and access
 
 =head1 METHODS
 
-=head2 B<access_token_url>
+=head2 B<api_host>
+
+Hostname used for authentication
+
+=head2 B<access_token_path>
 
 OAuth Access token url
 
-=head2 B<authorize_token_url>
+=head2 B<authorize_token_path>
 
 OAuth Authorize token url
 
-=head2 B<request_token_url>
+=head2 B<request_token_path>
 
 OAuth Request token url
 
-=head2 B<api_url>
+=head2 B<request_token>
 
-API url for doing the client interactions with launchpad.net
+Perform the request-token request
+
+=head2 B<authenticate_token>
+
+Perform the authentication request
+
+=head2 B<access_token>
+
+Perform the access token request
 
 =head1 AUTHOR
 

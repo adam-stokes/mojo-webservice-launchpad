@@ -7,6 +7,7 @@ use Mojolicious::Lite;
 use Net::Launchpad;
 use Mojo::URL;
 use feature qw[say];
+use DDP;
 
 my $callback_uri = "http://localhost:3000/callback";
 my $consumer_key = "Net-Launchpad";
@@ -17,7 +18,7 @@ app->helper(
         Net::Launchpad->new(
             consumer_key => $consumer_key,
             callback_uri => $callback_uri,
-            staging      => 1
+            staging      => 0
         );
     }
 );
@@ -29,14 +30,19 @@ get '/' => sub {
 
 post '/auth' => sub {
     my ($c) = @_;
-    return $c->redirect_to(app->lp->authorize_url);
+    my ($token, $secret) = app->lp->request_token;
+    $c->session('consumer_key' => $consumer_key);
+    $c->session('token' => $token);
+    $c->session('secret' => $secret);
+    return $c->redirect_to(app->lp->authorize_token($token, $secret));
 };
 
 get '/callback' => sub {
   my ($c) = @_;
-  my $request_token = $c->param('code');
-  my $payload = app->lp->authenticate($authorization_code);
-  $c->stash(oauth => $payload);
+  my ($access_token, $access_token_secret) = app->lp->access_token($c->session('token'), $c->session('secret'));
+  $c->stash(consumer_key => $c->session('consumer_key'));
+  $c->stash(access_token => $access_token);
+  $c->stash(access_token_secret => $access_token_secret);
 } => 'authenticated';
 
 app->start;
@@ -53,13 +59,11 @@ __DATA__
 </html>
 
 @@ authenticated.html.ep
-% use DDP;
-% p $oauth;
 <html><head><title>Callback</title></head>
 <body>
 <h1>Authenticated</h1>
-<p>Your consumer_key is: <%= $oauth->{consumer_key} %></p>
-<p>Your access_token is: <%= $oauth->{access_token} %></p>
-<p>Your access_token_secret is: <%= $oauth->{access_token_secret} %></p>
+<p>Your consumer_key is: <%= $consumer_key %></p>
+<p>Your access_token is: <%= $access_token %></p>
+<p>Your access_token_secret is: <%= $access_token_secret %></p>
 </body>
 </html>
