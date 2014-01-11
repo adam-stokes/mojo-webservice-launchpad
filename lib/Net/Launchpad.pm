@@ -6,7 +6,7 @@ use Mojo::JSON;
 use Mojo::URL;
 use Mojo::Parameters;
 use DDP;
-our $VERSION = '0.99_1';
+our $VERSION = '1.0.0';
 
 has 'staging' => 0;
 has 'consumer_key';

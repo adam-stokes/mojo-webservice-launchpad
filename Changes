@@ -1,4 +1,6 @@
 Revision history for Net-Launchpad
 
 {{$NEXT}}
-        - Initial release
+
+1.0.0  2014-01-11 14:41:41 EST
+        - Re-work oauth 1.0 workflow

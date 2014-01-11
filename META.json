@@ -45,7 +45,7 @@
          }
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/battlemidget/Net-Launchpad/issues"
@@ -57,7 +57,7 @@
          "web" : "https://github.com/battlemidget/Net-Launchpad"
       }
    },
-   "version" : "0.99_1",
+   "version" : "1.0.0",
    "x_contributors" : [
       "Adam Stokes <adam.stokes@ubuntu.com>"
    ]
