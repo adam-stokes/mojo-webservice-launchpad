@@ -7,7 +7,6 @@ use Mojolicious::Lite;
 use Net::Launchpad;
 use Mojo::URL;
 use feature qw[say];
-use DDP;
 
 my $callback_uri = "http://localhost:3000/callback";
 my $consumer_key = "Net-Launchpad";

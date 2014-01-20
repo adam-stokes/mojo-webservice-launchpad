@@ -5,7 +5,6 @@ use Mojo::UserAgent;
 use Mojo::JSON;
 use Mojo::URL;
 use Mojo::Parameters;
-use DDP;
 our $VERSION = '1.0.0';
 
 has 'staging' => 0;

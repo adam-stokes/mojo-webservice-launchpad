@@ -1,7 +1,14 @@
-requires 'perl', '5.008005';
+requires 'Mojo::Base';
+requires 'Mojo::JSON';
+requires 'Mojo::Parameters';
+requires 'Mojo::URL';
+requires 'Mojo::UserAgent';
 
-# requires 'Some::Module', 'VERSION';
+on configure => sub {
+    requires 'Module::Build::Tiny', '0.031';
+    requires 'perl', '5.008005';
+};
 
 on test => sub {
-    requires 'Test::More', '0.88';
+    requires 'Test::More';
 };
