@@ -5,27 +5,24 @@ use Mojo::UserAgent;
 use Mojo::JSON;
 use Mojo::URL;
 use Mojo::Parameters;
+use Function::Parameters {
+    func   => 'function_strict',
+    method => 'method_strict'
+};
 our $VERSION = '1.0.1';
 
 has 'staging' => 0;
 has 'consumer_key';
 has 'callback_uri';
+has 'json' => method { Mojo::JSON->new };
 
-has 'json' => sub {
-    my $self = shift;
-    my $json = Mojo::JSON->new;
-    return $json;
-};
-
-has 'ua' => sub {
-    my $self = shift;
+has 'ua' => method {
     my $ua = Mojo::UserAgent->new;
     $ua->transactor->name("Net::Salesforce/$VERSION");
     return $ua;
 };
 
-has 'nonce' => sub {
-    my $self  = shift;
+has 'nonce' => method {
     my @a     = ('A' .. 'Z', 'a' .. 'z', 0 .. 9);
     my $nonce = '';
     for (0 .. 31) {
@@ -34,8 +31,7 @@ has 'nonce' => sub {
     return $nonce;
 };
 
-has 'params' => sub {
-    my $self = shift;
+has 'params' => method {
     return {
         oauth_callback         => $self->callback_uri,
         oauth_consumer_key     => $self->consumer_key,
@@ -49,31 +45,24 @@ has 'params' => sub {
     };
 };
 
-sub api_host {
-    my $self = shift;
-    if ($self->staging) {
-        return Mojo::URL->new('https://staging.launchpad.net');
-    }
-    return Mojo::URL->new('https://launchpad.net/');
+method api_host {
+    return Mojo::URL->new('https://launchpad.net/') unless $self->staging;
+    return Mojo::URL->new('https://staging.launchpad.net');
 }
 
-sub request_token_path {
-    my $self = shift;
+method request_token_path {
     return $self->api_host->path('+request-token');
 }
 
-sub access_token_path {
-    my $self = shift;
+method access_token_path {
     return $self->api_host->path('+access-token');
 }
 
-sub authorize_token_path {
-    my $self = shift;
+method authorize_token_path {
     return $self->api_host->path('+authorize-token');
 }
 
-sub request_token {
-    my $self = shift;
+method request_token {
     my $tx =
       $self->ua->post(
         $self->request_token_path->to_string => form => $self->params);
@@ -84,16 +73,14 @@ sub request_token {
     return ($token, $secret);
 }
 
-sub authorize_token {
-    my ($self, $token, $token_secret) = @_;
+method authorize_token($token, $token_secret) {
     $self->params->{oauth_token} = $token;
     $self->params->{oauth_token_secret} = $token_secret;
     my $url = $self->authorize_token_path->query($self->params);
     return $url->to_string;
 }
 
-sub access_token {
-    my ($self, $token, $secret) = @_;
+method access_token($token, $secret) {
     $self->params->{oauth_token} = $token;
     $self->params->{oauth_token_secret} = $secret;
     $self->params->{oauth_signature} =

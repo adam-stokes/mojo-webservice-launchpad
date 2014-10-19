@@ -1,72 +1,80 @@
 # NAME
 
-Net::Launchpad - Launchpad.net OAuth 1.0
+Net::Launchpad
+
+# VERSION
+
+version 1.0.3
 
 # SYNOPSIS
 
 OAuth 1.0a authorization and client for Launchpad.net
 
+# NAME
+
+Net::Launchpad - Launchpad.net OAuth 1.0
+
 # ATTRIBUTES
 
 [Net::Launchpad](https://metacpan.org/pod/Net::Launchpad) implements the following attributes:
 
-## __staging__
+## **staging**
 
 Boolean to interact with staging server or production.
 
-## __ua__
+## **ua**
 
 A [Mojo::UserAgent](https://metacpan.org/pod/Mojo::UserAgent).
 
-## __json__
+## **json**
 
 A [Mojo::JSON](https://metacpan.org/pod/Mojo::JSON).
 
-## __consumer\_key__
+## **consumer\_key**
 
 Holds the string that identifies your application.
 
     $lp->consumer_key('my-app-name');
 
-## __callback\_uri__
+## **callback\_uri**
 
 Callback url to redirect use back to once authenticated.
 
-## __nonce__
+## **nonce**
 
 Nonce
 
-## __params__
+## **params**
 
 OAuth 1.0a parameters used in request, authenticate, and access
 
 # METHODS
 
-## __api\_host__
+## **api\_host**
 
 Hostname used for authentication
 
-## __access\_token\_path__
+## **access\_token\_path**
 
 OAuth Access token url
 
-## __authorize\_token\_path__
+## **authorize\_token\_path**
 
 OAuth Authorize token url
 
-## __request\_token\_path__
+## **request\_token\_path**
 
 OAuth Request token url
 
-## __request\_token__
+## **request\_token**
 
 Perform the request-token request
 
-## __authenticate\_token__
+## **authenticate\_token**
 
 Perform the authentication request
 
-## __access\_token__
+## **access\_token**
 
 Perform the access token request
 
@@ -102,3 +110,14 @@ Copyright 2013-2014 Adam Stokes
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# AUTHOR
+
+Adam Stokes <adamjs@cpan.org>
+
+# COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Adam Stokes.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.

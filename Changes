@@ -1,9 +1,55 @@
-Revision history for Net-Launchpad
+==================================================
+Changes from 2013-10-19 00:00:00 +0000 to present.
+==================================================
 
-{{$NEXT}}
+------------------------------------------
+version 1.0.3 at 2014-10-19 19:38:10 +0000
+------------------------------------------
 
-1.0.1  2014-01-20 17:36:47 EST
-	- Closes GH#1
+  Change: 2be3f246fc326cfba587640ed337b15bdf0f47ca
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-01-20 17:36:56 +0000
 
-1.0.0  2014-01-11 14:41:41 EST
-        - Re-work oauth 1.0 workflow
+    1.0.1 
+
+  Change: ae796af9d756f5c61ec6ee2299467a892c4c7db4
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-01-20 17:36:30 +0000
+
+    Fixes #1
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+  Change: c347d4a06b8d8ed3e5efe1e592d511b29a52796f
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-01-11 14:42:40 +0000
+
+    1.0.0 
+
+  Change: c72c52d4970445e63129b6843c156e1e7cf893fb
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-01-10 16:58:27 +0000
+
+    update workflow
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+  Change: d644624987cd6208a7aecc6bbfae32cb0f86e451
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-01-10 12:56:52 +0000
+
+    work on splitting out launchpad auth
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+  Change: b09c6f082e3cf78c079cd09be817c0fa577cf39f
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-01-10 12:28:40 +0000
+
+    initial
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+================
+End of releases.
+================

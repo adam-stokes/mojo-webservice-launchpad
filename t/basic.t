@@ -1,8 +1,7 @@
+#!/usr/bin/env perl
 use strict;
 use Test::More;
-use Net::Launchpad;
 
 # replace with the actual test
-ok 1;
-
+use_ok('Net::Launchpad');
 done_testing;
