@@ -1,5 +1,5 @@
 ---
-abstract: 'Launchpad.net OAuth 1.0'
+abstract: 'Launchpad.net Authentication'
 author:
   - 'Adam Stokes <adamjs@cpan.org>'
 build_requires:
@@ -33,5 +33,7 @@ requires:
   Mojo::URL: '0'
   Mojo::UserAgent: '0'
 resources:
-  repository: git://github.com/battlemidget/Net-Launchpad
-version: 1.0.3
+  homepage: https://github.com/battlemidget/Net-Launchpad
+  repository: https://github.com/battlemidget/Net-Launchpad.git
+version: 1.0.4
+x_authority: cpan:ADAMJS

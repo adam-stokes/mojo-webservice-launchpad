@@ -1,22 +1,12 @@
 # NAME
 
-Net::Launchpad
+Net::Launchpad - Launchpad.net Authentication
 
 # VERSION
 
-version 1.0.3
-
-# SYNOPSIS
-
-OAuth 1.0a authorization and client for Launchpad.net
-
-# NAME
-
-Net::Launchpad - Launchpad.net OAuth 1.0
+version 1.0.4
 
 # ATTRIBUTES
-
-[Net::Launchpad](https://metacpan.org/pod/Net::Launchpad) implements the following attributes:
 
 ## **staging**
 
@@ -54,6 +44,10 @@ OAuth 1.0a parameters used in request, authenticate, and access
 
 Hostname used for authentication
 
+## **request\_token\_path**
+
+OAuth Request token url
+
 ## **access\_token\_path**
 
 OAuth Access token url
@@ -61,10 +55,6 @@ OAuth Access token url
 ## **authorize\_token\_path**
 
 OAuth Authorize token url
-
-## **request\_token\_path**
-
-OAuth Request token url
 
 ## **request\_token**
 
@@ -77,39 +67,6 @@ Perform the authentication request
 ## **access\_token**
 
 Perform the access token request
-
-# AUTHOR
-
-Adam Stokes, `<adamjs at cpan.org>`
-
-# BUGS
-
-Report bugs to https://github.com/battlemidget/Net-Launchpad/issues.
-
-# DEVELOPMENT
-
-## Repository
-
-    http://github.com/battlemidget/Net-Launchpad
-
-# SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Net::Launchpad
-
-# SEE ALSO
-
-- [https://launchpad.net/launchpadlib](https://launchpad.net/launchpadlib), "Python implementation"
-
-# COPYRIGHT
-
-Copyright 2013-2014 Adam Stokes
-
-# LICENSE
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
 
 # AUTHOR
 

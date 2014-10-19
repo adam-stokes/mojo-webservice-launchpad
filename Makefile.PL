@@ -10,7 +10,7 @@ use ExtUtils::MakeMaker ;
 
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "Launchpad.net OAuth 1.0",
+  "ABSTRACT" => "Launchpad.net Authentication",
   "AUTHOR" => "Adam Stokes <adamjs\@cpan.org>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
@@ -41,7 +41,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "1.0.3",
+  "VERSION" => "1.0.4",
   "test" => {
     "TESTS" => "t/*.t"
   }
