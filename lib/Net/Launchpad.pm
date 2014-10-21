@@ -2,15 +2,14 @@ package Net::Launchpad;
 
 # ABSTRACT: Launchpad.net Authentication
 
-use Mojo::Base -base;
+use Moose;
+use Function::Parameters;
 use Mojo::UserAgent;
-use Mojo::JSON;
 use Mojo::URL;
 use Mojo::Parameters;
-use Function::Parameters {
-    func   => 'function_strict',
-    method => 'method_strict'
-};
+use Data::Dumper::Concise;
+use namespace::autoclean;
+
 
 =attr B<staging>
 
@@ -43,27 +42,36 @@ Nonce
 OAuth 1.0a parameters used in request, authenticate, and access
 
 =cut
-has 'staging' => 0;
-has 'consumer_key';
-has 'callback_uri';
-has 'json' => method { Mojo::JSON->new };
+has staging => (is => 'ro', isa => 'Int', default => 0);
+has consumer_key => (is => 'ro', isa => 'Str');
+has callback_uri => (is => 'ro', isa => 'Str');
 
-has 'ua' => method {
-    my $ua = Mojo::UserAgent->new;
-    $ua->transactor->name("Net::Salesforce");
-    return $ua;
-};
+has ua => (
+    is      => 'ro',
+    isa     => 'Mojo::UserAgent',
+    default => method {
+        my $ua = Mojo::UserAgent->new;
+        $ua->transactor->name("Net::Salesforce");
+        return $ua;
+    }
+);
 
-has 'nonce' => method {
-    my @a     = ('A' .. 'Z', 'a' .. 'z', 0 .. 9);
+
+has nonce => (is => 'ro', isa => 'Str', builder => '_build_nonce');
+
+method _build_nonce {
+    my @a = ('A' .. 'Z', 'a' .. 'z', 0 .. 9);
     my $nonce = '';
     for (0 .. 31) {
         $nonce .= $a[rand(scalar(@a))];
     }
     return $nonce;
-};
+}
 
-has 'params' => method {
+
+has params => (is => 'rw', isa => 'HashRef', builder => '_build_params');
+
+method _build_params {
     return {
         oauth_callback         => $self->callback_uri,
         oauth_consumer_key     => $self->consumer_key,
@@ -75,7 +83,7 @@ has 'params' => method {
         oauth_timestamp        => time,
         oauth_nonce            => $self->nonce
     };
-};
+}
 
 =method B<api_host>
 
@@ -157,8 +165,10 @@ method access_token($token, $secret) {
         $self->access_token_path->to_string => form => $self->params);
     die $tx->res->body unless $tx->success;
     my $params = Mojo::Parameters->new($tx->res->body);
+    print Dumper($params);
     return ($params->param('oauth_token'), $params->param('oauth_token_secret'));
 }
 
+__PACKAGE__->meta->make_immutable;
 1;
 

@@ -6,6 +6,7 @@ BEGIN { unshift @INC, "$FindBin::Bin/../lib" }
 use Mojolicious::Lite;
 use Net::Launchpad;
 use Mojo::URL;
+use Data::Dumper::Concise;
 use feature qw[say];
 
 my $callback_uri = "http://localhost:3000/callback";
@@ -16,8 +17,7 @@ app->helper(
         my $self = shift;
         Net::Launchpad->new(
             consumer_key => $consumer_key,
-            callback_uri => $callback_uri,
-            staging      => 0
+            callback_uri => $callback_uri
         );
     }
 );
