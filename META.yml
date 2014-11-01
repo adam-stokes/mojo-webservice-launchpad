@@ -43,5 +43,5 @@ requires:
 resources:
   homepage: https://github.com/battlemidget/Net-Launchpad
   repository: https://github.com/battlemidget/Net-Launchpad.git
-version: '2.100'
+version: '2.101'
 x_authority: cpan:ADAMJS

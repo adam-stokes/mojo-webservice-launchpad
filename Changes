@@ -3,8 +3,26 @@ Changes from 2013-11-01 00:00:00 +0000 to present.
 ==================================================
 
 ------------------------------------------
-version 2.100 at 2014-11-01 02:44:07 +0000
+version 2.101 at 2014-11-01 02:46:42 +0000
 ------------------------------------------
+
+  Change: ab7c7133beb27e672b3ee6d5d6454a1f3cc6a6e8
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-10-31 22:46:36 +0000
+
+    merge client into main library
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+------------------------------------------
+version 2.100 at 2014-11-01 02:44:38 +0000
+------------------------------------------
+
+  Change: e0eaed3db4828be64b8fd4ad3fd5dd4ff1f90570
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-10-31 22:44:38 +0000
+
+    v2.100 
 
   Change: 77e567801bdf973f525ef037d310ecee0cee65d9
   Author: Adam Stokes <adam.stokes@ubuntu.com>

@@ -4,7 +4,7 @@ Net::Launchpad - Launchpad.net Authentication
 
 # VERSION
 
-version 2.100
+version 2.101
 
 # ATTRIBUTES
 
