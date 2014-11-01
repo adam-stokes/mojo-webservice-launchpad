@@ -3,12 +3,12 @@ Changes from 2013-11-01 00:00:00 +0000 to present.
 ==================================================
 
 ------------------------------------------
-version 2.101 at 2014-11-01 02:46:42 +0000
+version 2.101 at 2014-11-01 02:46:55 +0000
 ------------------------------------------
 
-  Change: ab7c7133beb27e672b3ee6d5d6454a1f3cc6a6e8
+  Change: 7d868a82298162e4908fbb14bb9d2ed37d457520
   Author: Adam Stokes <adam.stokes@ubuntu.com>
-  Date : 2014-10-31 22:46:36 +0000
+  Date : 2014-10-31 22:46:49 +0000
 
     merge client into main library
 
