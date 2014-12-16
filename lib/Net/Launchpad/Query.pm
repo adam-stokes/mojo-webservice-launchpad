@@ -59,6 +59,15 @@ Search people
 
 =cut
 method people {
+    return $self->_load_model('People');
+}
+
+=method person
+
+Search person
+
+=cut
+method person {
     return $self->_load_model('Person');
 }
 

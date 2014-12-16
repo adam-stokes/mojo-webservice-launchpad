@@ -3,8 +3,8 @@ package Net::Launchpad::Model::Base;
 # ABSTRACT: base class
 
 use Moose;
-use namespace::autoclean;
 use Function::Parameters;
+use namespace::autoclean;
 
 =attr result
 

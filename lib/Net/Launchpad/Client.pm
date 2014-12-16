@@ -100,9 +100,9 @@ method _build_auth_header {
 }
 
 method api_url {
-    return Mojo::URL->new('https://api.launchpad.net/1.0/')
+    return Mojo::URL->new('https://api.launchpad.net/devel/')
       unless $self->staging;
-    return Mojo::URL->new('https://api.staging.launchpad.net/1.0/');
+    return Mojo::URL->new('https://api.staging.launchpad.net/devel/');
 }
 
 method __path_cons($path) {

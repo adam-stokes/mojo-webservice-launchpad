@@ -70,6 +70,12 @@ method branch (Str $name, Str $project_name, Str $branch_name) {
     return $self->_load_model('Branch', $params);
 }
 
+method people {
+    my $params =
+      $self->lpc->get(sprintf("%s/people", $self->lpc->api_url));
+    return $self->_load_model('People', $params);
+}
+
 method person (Str $name) {
     my $params =
       $self->lpc->get(sprintf("%s/%s", $self->lpc->api_url, $name));

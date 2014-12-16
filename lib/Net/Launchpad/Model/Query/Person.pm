@@ -26,7 +26,7 @@ use namespace::autoclean;
 
 extends 'Net::Launchpad::Model::Base';
 
-has '+ns' => (is => 'ro', default => 'people');
+has '+ns' => (is => 'ro', default => 'person');
 
 __PACKAGE__->meta->make_immutable;
 
