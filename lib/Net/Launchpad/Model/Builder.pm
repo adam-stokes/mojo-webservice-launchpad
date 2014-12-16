@@ -31,9 +31,39 @@ virtualized, builderok, status, failnotes and currentjob.
 =cut
 
 use Moose;
+use Function::Parameters;
 use namespace::autoclean;
 
 extends 'Net::Launchpad::Model::Base';
+with 'Net::Launchpad::Query';
+
+=method all
+
+Get all builders
+
+=cut
+method all {
+  return $self->resource({});
+}
+
+=method get_by_name
+
+Return a builder by name
+
+B<Params>
+
+=for :list
+* C<Str name>
+
+=cut
+
+method get_by_name (Str $name) {
+    my $params = {
+        'ws.op' => 'getByName',
+        name    => $name
+    };
+    return $self->resource($params);
+}
 
 __PACKAGE__->meta->make_immutable;
 1;

@@ -17,8 +17,28 @@ package Net::Launchpad::Model::Person;
 =cut
 
 use Moose;
+use Function::Parameters;
 use namespace::autoclean;
 extends 'Net::Launchpad::Model::Base';
+
+=method get_ppa_by_name
+
+Get PPA for owner
+
+B<Params>
+
+=for :list
+* C<Str name>
+
+=cut
+
+method get_ppa_by_name (Str $name) {
+    my $params = {
+        'ws.op' => 'getPPAByName',
+        name    => $name
+    };
+    return $self->resource($params);
+}
 
 __PACKAGE__->meta->make_immutable;
 1;

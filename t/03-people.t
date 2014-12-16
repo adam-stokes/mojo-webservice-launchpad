@@ -31,6 +31,7 @@ my $person = $model->person('~adam-stokes');
 ok($person->result->{name} eq 'adam-stokes', $person->result->{name} . " found correctly.");
 
 use_ok('Net::Launchpad::Query');
+# people
 my $query           = Net::Launchpad::Query->new(lpc => $lp);
 my $person_by_email = $query->people->get_by_email('adam.stokes@ubuntu.com');
 my $person_by_fuzzy = $query->people->find('adam.stokes');

@@ -1,6 +1,6 @@
-package Net::Launchpad::Model::Query::Person;
+package Net::Launchpad::Model::Query::People;
 
-# ABSTRACT: Person query model
+# ABSTRACT: people query model
 
 =head1 SYNOPSIS
 
@@ -26,7 +26,7 @@ use namespace::autoclean;
 
 extends 'Net::Launchpad::Model::Base';
 
-has '+ns' => (is => 'ro', default => 'person');
+has '+ns' => (is => 'ro', default => 'people');
 
 __PACKAGE__->meta->make_immutable;
 

@@ -9,23 +9,36 @@ use Module::Runtime qw(is_module_name use_package_optimistically);
 use Data::Dumper::Concise;
 use namespace::autoclean;
 
-has lpc => (is => 'ro', isa => 'Net::Launchpad::Client');
-
-method _load_model (Str $name, HashRef $params) {
+# TOP-LEVEL collections
+method _load_model (Str $name) {
     my $model_class = "Net::Launchpad::Model::$name";
-    my $model_role  = "Net::Launchpad::Role::$name";
+    die "Invalid model." unless is_module_name($model_class);
+    return use_package_optimistically($model_class)->new;
+}
 
-    die "Invalid model requested." unless is_module_name($model_class);
-    die "Unknown Role module" unless is_module_name($model_role);
+# archives
+# branches
+# bug_trackers
+# bugs
+# builds
+# countries
+# cves
+# distributions
+# languages
+# livefses
+# packagesets
+# people
+# processors
+# project_groups
+# projects
+# questions
+# specifications
+# temporary_blobs
+# translation_groups
+# translation_import_queue_entries
 
-    my $model =
-      use_package_optimistically($model_class)->new(result => $params, lpc => $self->lpc);
-
-    my $role =
-      use_package_optimistically($model_role);
-
-    die "$_ is not a role" unless is_role($role);
-    $role->meta->apply($model);
+method archives {
+    return $self->_load_model('Archives');
 }
 
 method archive (Str $distro, Str $archive_name) {
@@ -74,6 +87,11 @@ method person (Str $name) {
     my $params =
       $self->lpc->get(sprintf("%s/%s", $self->lpc->api_url, $name));
     return $self->_load_model('Person', $params);
+}
+
+method people {
+    my $params = $self->lpc->get(sprintf("%s/people", $self->lpc->api_url));
+    return $self->_load_model('People', $params);
 }
 
 method distribution (Str $name) {
