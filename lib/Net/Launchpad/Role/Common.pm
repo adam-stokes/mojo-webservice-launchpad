@@ -4,6 +4,7 @@ package Net::Launchpad::Role::Common;
 
 use Moose::Role;
 use Function::Parameters;
+use Mojo::URL;
 
 =method resource
 
@@ -13,7 +14,7 @@ Returns resource of C<name>
 
 method resource ($name) {
     my $link = $name . "_link";
-    my $ret  = $self->lpc->get($self->result->{$link});
+    my $ret  = $self->lpc->get($self->stash->{$link});
     return $ret;
 }
 
@@ -25,9 +26,22 @@ Returns entires from collection C<name>
 
 method collection ($name) {
     my $link = $name . "_collection_link";
-    my $ret  = $self->lpc->get($self->result->{$link});
+    my $ret  = $self->lpc->get($self->stash->{$link});
     return $ret->{entries};
 }
+
+=method query
+
+Returns results of C<name>
+
+=cut
+
+method query ($params) {
+    my $uri = Mojo::URL->new($self->stash->{self_link});
+    $uri->query($params);
+    return $self->lpc->get($uri->to_string);
+}
+
 
 =method owner
 

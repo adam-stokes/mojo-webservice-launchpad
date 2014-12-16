@@ -39,9 +39,38 @@ extends 'Net::Launchpad::Model::Base';
 has name => (is => 'ro', isa => 'Str');
 
 method BUILD {
-    return $self->lpc->get(
-        sprintf("%s/builders/%s", $self->lpc->api_url, $self->name));
+    return $self->stash($self->lpc->get(
+        sprintf("%s/builders/%s", $self->lpc->api_url, $self->name)));
 }
+
+=method all
+
+Get all builders
+
+=cut
+method all {
+  return $self->resource({});
+}
+
+=method get_by_name
+
+Return a builder by name
+
+B<Params>
+
+=for :list
+* C<Str name>
+
+=cut
+
+method get_by_name (Str $name) {
+    my $params = {
+        'ws.op' => 'getByName',
+        name    => $name
+    };
+    return $self->resource($params);
+}
+
 
 __PACKAGE__->meta->make_immutable;
 1;

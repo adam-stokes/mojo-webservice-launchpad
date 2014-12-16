@@ -11,12 +11,24 @@ use namespace::autoclean;
 
 has lpc => (is => 'ro', isa => 'Net::Launchpad::Client');
 
+=method _load_model
+
+Merges roles onto model for additional query options
+
+=cut
+
 method _load_model (Str $name, HashRef $params = +{}) {
     my $model_class = "Net::Launchpad::Model::$name";
+
+    # Provide additional routines for accessing class data
     my $model_role  = "Net::Launchpad::Role::$name";
+
+    # Provide query routines
+    my $query_role_class = "Net::Launchpad::Role::Common";
 
     die "Invalid model requested." unless is_module_name($model_class);
     die "Unknown Role module"      unless is_module_name($model_role);
+    die "Unknown Role module"      unless is_module_name($query_role_class);
 
     my $model =
       use_package_optimistically($model_class)
@@ -24,8 +36,12 @@ method _load_model (Str $name, HashRef $params = +{}) {
 
     my $role = use_package_optimistically($model_role);
 
+    my $query_role = use_package_optimistically($query_role_class);
+
     die "$_ is not a role" unless is_role($role);
+    die "$_ is not a role" unless is_role($query_role);
     $role->meta->apply($model);
+    $query_role->meta->apply($model);
 }
 
 method archive (Str $distro, Str $archive_name) {
@@ -48,7 +64,6 @@ method builder (Str $name) {
 method country (Str $country_code) {
     return $self->_load_model('Country', {country_code => $country_code});
 }
-
 
 method branch (Str $name, Str $project_name, Str $branch_name) {
     return $self->_load_model(

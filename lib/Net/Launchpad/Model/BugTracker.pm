@@ -11,8 +11,18 @@ extends 'Net::Launchpad::Model::Base';
 has name => (is => 'ro', isa => 'Str');
 
 method BUILD {
-    return $self->lpc->get(
-        sprintf("%s/bugs/bugtrackers/%s", $self->lpc->api_url, $self->name));
+    return $self->stash($self->lpc->get(
+        sprintf("%s/bugs/bugtrackers/%s", $self->lpc->api_url, $self->name)));
+}
+
+=method watches
+
+Returns remote watches collection
+
+=cut
+
+method watches {
+    return $self->collection('watches');
 }
 
 __PACKAGE__->meta->make_immutable;

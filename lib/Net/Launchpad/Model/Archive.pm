@@ -12,9 +12,11 @@ has distro       => (is => 'ro', isa => 'Str');
 has archive_name => (is => 'ro', isa => 'Str');
 
 method BUILD {
-    return $self->lpc->get(
-        sprintf("%s/+archive/%s",
-            $self->lpc->api_url, $self->distro, $self->archive_name)
+    return $self->stash(
+        $self->lpc->get(
+            sprintf("%s/+archive/%s",
+                $self->lpc->api_url, $self->distro, $self->archive_name)
+        )
     );
 }
 
