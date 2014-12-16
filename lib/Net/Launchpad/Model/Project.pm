@@ -58,5 +58,17 @@ method latest {
     return $self->resource($params);
 }
 
+
+=method bug_supervisor_link
+
+Bug supervisor
+
+=cut
+
+method bug_supervisor {
+    return $self->resource('bug_supervisor');
+}
+
+
 __PACKAGE__->meta->make_immutable;
 1;

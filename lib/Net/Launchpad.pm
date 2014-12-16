@@ -42,6 +42,7 @@ Nonce
 OAuth 1.0a parameters used in request, authenticate, and access
 
 =cut
+
 has staging => (is => 'ro', isa => 'Int', default => 0);
 has consumer_key => (is => 'ro', isa => 'Str');
 has callback_uri => (is => 'ro', isa => 'Str');
@@ -90,6 +91,7 @@ method _build_params {
 Hostname used for authentication
 
 =cut
+
 method api_host {
     return Mojo::URL->new('https://launchpad.net/') unless $self->staging;
     return Mojo::URL->new('https://staging.launchpad.net');
@@ -100,6 +102,7 @@ method api_host {
 OAuth Request token url
 
 =cut
+
 method request_token_path {
     return $self->api_host->path('+request-token');
 }
@@ -109,6 +112,7 @@ method request_token_path {
 OAuth Access token url
 
 =cut
+
 method access_token_path {
     return $self->api_host->path('+access-token');
 }
@@ -118,6 +122,7 @@ method access_token_path {
 OAuth Authorize token url
 
 =cut
+
 method authorize_token_path {
     return $self->api_host->path('+authorize-token');
 }
@@ -127,13 +132,14 @@ method authorize_token_path {
 Perform the request-token request
 
 =cut
+
 method request_token {
     my $tx =
       $self->ua->post(
         $self->request_token_path->to_string => form => $self->params);
     die $tx->res->body unless $tx->success;
     my $params = Mojo::Parameters->new($tx->res->body);
-    my $token = $params->param('oauth_token');
+    my $token  = $params->param('oauth_token');
     my $secret = $params->param('oauth_token_secret');
     return ($token, $secret);
 }
@@ -143,8 +149,9 @@ method request_token {
 Perform the authentication request
 
 =cut
-method authorize_token($token, $token_secret) {
-    $self->params->{oauth_token} = $token;
+
+method authorize_token ($token, $token_secret) {
+    $self->params->{oauth_token}        = $token;
     $self->params->{oauth_token_secret} = $token_secret;
     my $url = $self->authorize_token_path->query($self->params);
     return $url->to_string;
@@ -155,18 +162,19 @@ method authorize_token($token, $token_secret) {
 Perform the access token request
 
 =cut
-method access_token($token, $secret) {
-    $self->params->{oauth_token} = $token;
+
+method access_token ($token, $secret) {
+    $self->params->{oauth_token}        = $token;
     $self->params->{oauth_token_secret} = $secret;
-    $self->params->{oauth_signature} =
-      '&' . $secret;
+    $self->params->{oauth_signature}    = '&' . $secret;
     my $tx =
       $self->ua->post(
         $self->access_token_path->to_string => form => $self->params);
     die $tx->res->body unless $tx->success;
     my $params = Mojo::Parameters->new($tx->res->body);
     print Dumper($params);
-    return ($params->param('oauth_token'), $params->param('oauth_token_secret'));
+    return ($params->param('oauth_token'),
+        $params->param('oauth_token_secret'));
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -4,7 +4,7 @@ package Net::Launchpad::Model::Language;
 
 use Moose;
 use namespace::autoclean;
-
+with 'Net::Launchpad::Query';
 extends 'Net::Launchpad::Model::Base';
 
 __PACKAGE__->meta->make_immutable;

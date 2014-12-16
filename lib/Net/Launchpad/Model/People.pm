@@ -15,6 +15,7 @@ package Net::Launchpad::Model::People;
 use Moose;
 use Function::Parameters;
 use namespace::autoclean;
+with 'Net::Launchpad::Query';
 extends 'Net::Launchpad::Model::Base';
 
 =method find

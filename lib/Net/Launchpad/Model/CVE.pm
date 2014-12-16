@@ -19,6 +19,7 @@ package Net::Launchpad::Model::CVE;
 
 use Moose;
 use namespace::autoclean;
+with 'Net::Launchpad::Query';
 extends 'Net::Launchpad::Model::Base';
 
 __PACKAGE__->meta->make_immutable;

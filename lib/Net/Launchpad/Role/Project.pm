@@ -16,4 +16,5 @@ Bug supervisor
 method bug_supervisor {
     return $self->resource('bug_supervisor');
 }
+
 1;

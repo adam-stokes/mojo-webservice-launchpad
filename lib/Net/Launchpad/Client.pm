@@ -1,4 +1,5 @@
 package Net::Launchpad::Client;
+
 # ABSTRACT: Launchpad.net Client
 
 # TODO:
@@ -49,10 +50,18 @@ OAuth access_token_secret
 Staging or Production boolean
 
 =cut
+
 has consumer_key        => (is => 'ro', isa => 'Str');
 has access_token        => (is => 'ro', isa => 'Str');
 has access_token_secret => (is => 'ro', isa => 'Str');
 has staging             => (is => 'ro', isa => 'Int', default => 0);
+
+has version_map =>
+  (is => 'ro', isa => 'HashRef', builder => '_build_version_map');
+
+method _build_version_map {
+    return {devel => 'devel', stable => '1.0'};
+}
 
 has 'ua' => (
     is      => 'ro',
@@ -100,12 +109,16 @@ method _build_auth_header {
 }
 
 method api_url {
-    return Mojo::URL->new('https://api.launchpad.net/1.0/')
+    return Mojo::URL->new(
+        sprintf('https://api.launchpad.net/%s/', $self->version_map->{devel}))
       unless $self->staging;
-    return Mojo::URL->new('https://api.staging.launchpad.net/1.0/');
+    return Mojo::URL->new(
+        sprintf('https://api.staging.launchpad.net/%s/',
+            $self->version_map->{devel})
+    );
 }
 
-method __path_cons($path) {
+method __path_cons ($path) {
     if ($path =~ /^http.*api/) {
         return Mojo::URL->new($path);
     }
@@ -128,10 +141,11 @@ method get (Str $resource) {
       $self->ua->get(
         $uri->to_string => {'Authorization' => $self->authorization_header});
     if ($tx->success) {
-      return decode_json($tx->res->body);
-    } else {
-      my $err = $tx->error;
-      die "$err->{code} response: $err->{message}" if $err->{code};
+        return decode_json($tx->res->body);
+    }
+    else {
+        my $err = $tx->error;
+        die "$err->{code} response: $err->{message}" if $err->{code};
     }
 }
 
