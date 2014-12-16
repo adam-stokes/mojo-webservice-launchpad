@@ -5,6 +5,7 @@ package Net::Launchpad::Role::Common;
 use Moose::Role;
 use Function::Parameters;
 use Mojo::URL;
+use Data::Dumper::Concise;
 
 =method resource
 
@@ -36,8 +37,9 @@ Returns results of C<name>
 
 =cut
 
-method query ($params) {
-    my $uri = Mojo::URL->new($self->stash->{self_link});
+method query ($params, $path = undef) {
+    $path = $self->stash->{self_link} unless $path;
+    my $uri = Mojo::URL->new($path);
     $uri->query($params);
     return $self->lpc->get($uri->to_string);
 }

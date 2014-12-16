@@ -20,12 +20,13 @@ package Net::Launchpad::Model::Person;
 use Moose;
 use Function::Parameters;
 use namespace::autoclean;
+use aliased 'Net::Launchpad::Model';
 extends 'Net::Launchpad::Model::Base';
 
 has username => (is => 'ro', isa => 'Str');
 
 method BUILD {
-    return $self->stash(
+    $self->stash(
         $self->lpc->get(
             sprintf("%s/%s", $self->lpc->api_url, $self->username)
         )
@@ -37,6 +38,7 @@ method BUILD {
 Returns list a gpg keys registered
 
 =cut
+
 method gpg_keys {
     return $self->collection('gpg_keys');
 }
@@ -46,6 +48,7 @@ method gpg_keys {
 Returns list of irc nicks
 
 =cut
+
 method irc_nicks {
     return $self->collection('irc_nicknames');
 }
@@ -55,6 +58,7 @@ method irc_nicks {
 Returns list of ppas associated
 
 =cut
+
 method ppas {
     return $self->collection('ppas');
 }
@@ -64,13 +68,14 @@ method ppas {
 Returns list of public ssh keys
 
 =cut
+
 method ssh_keys {
     return $self->collection('sshkeys');
 }
 
 =method get_ppa_byname
 
-Return all ppa with given name
+Return Archive result of ppa with given name
 
 B<Params>
 
@@ -82,7 +87,7 @@ B<Params>
 method get_ppa_byname (Str $name) {
     my $params = {
         'ws.op' => 'getPPAByName',
-        text    => $name
+        name    => $name
     };
     return $self->query($params);
 }

@@ -31,15 +31,13 @@ my $model = Net::Launchpad::Model->new(lpc => $lp);
 
 # branch
 my $branch = $model->branch('~adam-stokes', '+junk', 'cloud-installer');
-ok($branch->result->{branch_type} eq 'Hosted', 'branch type found');
+ok($branch->stash->{branch_type} eq 'Hosted', 'branch type found');
 
-use_ok('Net::Launchpad::Query');
-my $query = Net::Launchpad::Query->new(lpc => $lp);
 my $branch_q_uniq_name =
-  $query->branches->get_by_unique_name('~adam-stokes/+junk/cloud-installer');
-ok( $branch_q_uniq_name->result->{unique_name} eq
+  $branch->get_by_unique_name('~adam-stokes/+junk/cloud-installer');
+ok( $branch_q_uniq_name->{unique_name} eq
       '~adam-stokes/+junk/cloud-installer',
-    "Queried ".$branch_q_uniq_name->result->{unique_name}. " properly"
+    "Queried ".$branch_q_uniq_name->{unique_name}. " properly"
 );
 
 done_testing;

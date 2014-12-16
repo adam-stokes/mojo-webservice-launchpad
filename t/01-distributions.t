@@ -30,6 +30,6 @@ my $model = Net::Launchpad::Model->new(lpc => $lp);
 
 my $distro = $model->distribution('ubuntu');
 ok(does_role($distro, 'Net::Launchpad::Role::Distribution'), 'has distribution role');
-ok ($distro->result->{name} eq 'ubuntu', 'found distribution name in result');
+ok ($distro->stash->{name} eq 'ubuntu', 'found distribution name in result');
 
 done_testing;

@@ -1,10 +1,60 @@
 ==================================================
-Changes from 2013-11-01 00:00:00 +0000 to present.
+Changes from 2013-12-16 00:00:00 +0000 to present.
 ==================================================
 
 ------------------------------------------
-version 2.101 at 2014-11-01 02:46:55 +0000
+version 2.102 at 2014-12-16 19:50:21 +0000
 ------------------------------------------
+
+  Change: ab04bd25408c465d119b9c7ec95d4b80e50096b6
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-12-16 14:50:00 +0000
+
+    clean up
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+  Change: 5bc294ce69793d588918bf99a99a895b06900454
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-12-16 11:41:00 +0000
+
+    second rework
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+  Change: 8d81cd460d62fdfb1e678bc7c214a93426b23eb8
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-12-16 10:14:55 +0000
+
+    add people packages
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+  Change: d83dae8ecab3f42b57275b5af2d3510b32e876fb
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-12-16 10:14:43 +0000
+
+    add people
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+  Change: f94da5b973a35e5ced869d9f5cd7106bc08ad82f
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-11-05 16:44:01 +0000
+
+    add supervisor link resource
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+------------------------------------------
+version 2.101 at 2014-11-01 02:47:35 +0000
+------------------------------------------
+
+  Change: d2e96c9ef0b308add1c760478577e79402ccd71d
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-10-31 22:47:35 +0000
+
+    v2.101 
 
   Change: 7d868a82298162e4908fbb14bb9d2ed37d457520
   Author: Adam Stokes <adam.stokes@ubuntu.com>

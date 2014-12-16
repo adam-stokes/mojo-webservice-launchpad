@@ -14,7 +14,7 @@ plan skip_all => 'must export launchpad credentials to enable these tests'
   && $ENV{LP_ACCESS_TOKEN}
   && $ENV{LP_ACCESS_TOKEN_SECRET};
 
-diag("testing people api");
+diag("testing ppa api");
 
 # replace with the actual test
 use_ok('Net::Launchpad::Client');
@@ -29,9 +29,12 @@ use_ok('Net::Launchpad::Model');
 my $model = Net::Launchpad::Model->new(lpc => $lp);
 
 # person
-my $person = $model->person('~adam-stokes');
-ok( $person->stash->{name} eq 'adam-stokes',
-    $person->stash->{name} . " found correctly."
-);
+my $person = $model->person('~cloud-installer');
+my $ppa = $person->get_ppa_byname('testing');
+ok ($ppa->{name} eq 'testing');
+my $archive = $model->archive('~cloud-installer', $ppa->{name});
+my $res = $archive->get_published_binaries();
+print Dumper($res);
+
 
 done_testing;

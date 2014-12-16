@@ -27,18 +27,14 @@ use_ok('Net::Launchpad::Model');
 my $model = Net::Launchpad::Model->new(lpc => $lp);
 
 # person
-my $person = $model->person('~adam-stokes');
-ok($person->result->{name} eq 'adam-stokes', $person->result->{name} . " found correctly.");
-
-use_ok('Net::Launchpad::Query');
-my $query           = Net::Launchpad::Query->new(lpc => $lp);
-my $person_by_email = $query->people->get_by_email('adam.stokes@ubuntu.com');
-my $person_by_fuzzy = $query->people->find('adam.stokes');
-ok( $person_by_fuzzy->result->{total_size} == 1,
+my $people = $model->people;
+my $person_by_email = $people->get_by_email('adam.stokes@ubuntu.com');
+my $person_by_fuzzy = $people->find('adam.stokes');
+ok( $person_by_fuzzy->{total_size} == 1,
     "a least one 'adam.stokes' found correctly."
 );
-ok( $person_by_email->result->{name} eq 'adam-stokes',
-    $person_by_email->result->{name} . " found correctly."
+ok( $person_by_email->{name} eq 'adam-stokes',
+    $person_by_email->{name} . " found correctly."
 );
 
 done_testing;

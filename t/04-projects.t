@@ -27,12 +27,12 @@ use_ok('Net::Launchpad::Model');
 my $model = Net::Launchpad::Model->new(lpc => $lp);
 
 my $project = $model->project('sosreport');
-ok($project->result->{name} eq 'sosreport', $project->result->{name} . " found correctly.");
+ok($project->stash->{name} eq 'sosreport', $project->stash->{name} . " found correctly.");
 
 use_ok('Net::Launchpad::Query');
 my $query = Net::Launchpad::Query->new(lpc => $lp);
 my $project_search =
   $query->projects->search('sosreport');
-ok( $project_search->result->{total_size} >= 1, 'Found 1 or more projects for sosreport');
+ok( $project_search->stash->{total_size} >= 1, 'Found 1 or more projects for sosreport');
 
 done_testing();

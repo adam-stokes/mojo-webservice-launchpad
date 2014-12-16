@@ -23,8 +23,10 @@ use namespace::autoclean;
 extends 'Net::Launchpad::Model::Base';
 
 method BUILD {
+
+    # top level query, no record to return yet.
     return $self->stash(
-        $self->lpc->get(sprintf("%s/people", $self->lpc->api_url)));
+        {self_link => sprintf("%s/people", $self->lpc->api_url)});
 }
 
 =method find
@@ -45,7 +47,7 @@ method find (Str $text) {
         'ws.op' => 'find',
         text    => $text
     };
-    return $self->resource($params);
+    return $self->query($params);
 }
 
 
@@ -67,7 +69,7 @@ method find_person (Str $text, Str $created_after = undef, Str $created_before =
         'ws.op' => 'findPerson',
         text    => $text
     };
-    return $self->resource($params);
+    return $self->query($params);
 }
 
 =method find_team
@@ -86,9 +88,9 @@ B<Params>
 method find_team (Str $text) {
     my $params = {
         'ws.op' => 'findTeam',
-        text => $text
+        text    => $text
     };
-    return $self->resource($params);
+    return $self->query($params);
 }
 
 
@@ -108,7 +110,7 @@ method get_by_email (Str $email) {
         'ws.op' => 'getByEmail',
         email   => $email
     };
-    return $self->resource($params);
+    return $self->query($params);
 }
 
 __PACKAGE__->meta->make_immutable;

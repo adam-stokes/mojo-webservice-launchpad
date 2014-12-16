@@ -32,6 +32,6 @@ my $model = Net::Launchpad::Model->new(lpc => $lp);
 # bug
 my $bug = $model->bug(1283310);
 ok(does_role($bug, 'Net::Launchpad::Role::Bug'), 'is a bug role');
-ok($bug->result->{id} eq '1283310', $bug->result->{id} . " found correctly.");
+ok($bug->stash->{id} eq '1283310', $bug->stash->{id} . " found correctly.");
 
 done_testing;
