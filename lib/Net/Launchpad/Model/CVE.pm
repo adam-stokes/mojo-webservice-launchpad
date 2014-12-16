@@ -1,4 +1,5 @@
 package Net::Launchpad::Model::CVE;
+
 # ABSTRACT: CVE Model
 
 =head1 SYNOPSIS
@@ -18,9 +19,16 @@ package Net::Launchpad::Model::CVE;
 =cut
 
 use Moose;
+use Function::Parameters;
 use namespace::autoclean;
 extends 'Net::Launchpad::Model::Base';
 
+has cve => (is => 'ro', isa => 'Str');
+
+method BUILD {
+    return $self->lpc->get(
+        sprintf("%s/bugs/cve/%s", $self->lpc->api_url, $self->cve));
+}
 __PACKAGE__->meta->make_immutable;
 1;
 

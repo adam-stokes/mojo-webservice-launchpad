@@ -1,4 +1,5 @@
 package Net::Launchpad::Model::People;
+
 # ABSTRACT: Person model
 
 =head1 SYNOPSIS
@@ -17,8 +18,13 @@ package Net::Launchpad::Model::People;
 =cut
 
 use Moose;
+use Function::Parameters;
 use namespace::autoclean;
 extends 'Net::Launchpad::Model::Base';
+
+method BUILD {
+    return $self->lpc->get(sprintf("%s/people", $self->lpc->api_url));
+}
 
 __PACKAGE__->meta->make_immutable;
 1;

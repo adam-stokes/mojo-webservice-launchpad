@@ -1,4 +1,5 @@
 package Net::Launchpad::Model::Country;
+
 # ABSTRACT: Country model
 
 =head1 SYNOPSIS
@@ -21,8 +22,17 @@ Container for countries
 =cut
 
 use Moose;
+use Function::Parameters;
 use namespace::autoclean;
 extends 'Net::Launchpad::Model::Base';
+
+has country_code => (is => 'ro', isa => 'Str');
+
+method BUILD {
+    return $self->lpc->get(
+        sprintf("%s/+countries/%s", $self->lpc->api_url, $self->country_code)
+    );
+}
 
 __PACKAGE__->meta->make_immutable;
 1;

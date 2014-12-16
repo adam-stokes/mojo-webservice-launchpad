@@ -1,4 +1,5 @@
 package Net::Launchpad::Model::Project;
+
 # ABSTRACT: Project Model interface
 
 =head1 DESCRIPTION
@@ -17,10 +18,19 @@ package Net::Launchpad::Model::Project;
     print "Name: ". $project->result->{name};
 
 =cut
+
 use Moose;
+use Function::Parameters;
 use namespace::autoclean;
 
 extends 'Net::Launchpad::Model::Base';
+
+has name => (is => 'ro', isa => 'Str');
+
+method BUILD {
+    return $self->lpc->get(
+        sprintf("%s/%s", $self->lpc->api_url, $self->name));
+}
 
 __PACKAGE__->meta->make_immutable;
 1;

@@ -17,8 +17,15 @@ package Net::Launchpad::Model::Person;
 =cut
 
 use Moose;
+use Function::Parameters;
 use namespace::autoclean;
 extends 'Net::Launchpad::Model::Base';
+
+has username => (is => 'ro', isa => 'Str');
+
+method BUILD {
+  return $self->lpc->get(sprintf("%s/%s", $self->lpc->api_url, $self->username));
+}
 
 __PACKAGE__->meta->make_immutable;
 1;
