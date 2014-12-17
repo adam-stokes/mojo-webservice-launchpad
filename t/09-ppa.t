@@ -34,7 +34,7 @@ my $ppa = $person->get_ppa_byname('testing');
 ok ($ppa->{name} eq 'testing');
 my $archive = $model->archive('~cloud-installer', $ppa->{name});
 my $res = $archive->get_published_binaries();
-print Dumper($res);
+ok($res->{entries});
 
 
 done_testing;
