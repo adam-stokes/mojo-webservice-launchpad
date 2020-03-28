@@ -19,3 +19,9 @@ Net-*
 _build_params
 perltidy.LOG
 local/
+/Net-Launchpad-*
+/.build
+/_build_params
+/Build
+/Build.bat
+!LICENSE

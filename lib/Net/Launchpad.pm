@@ -10,38 +10,10 @@ use Mojo::Parameters;
 use Data::Dumper::Concise;
 use namespace::autoclean;
 
+our $VERSION = '0.01';
+our $AUTHORITY = 'cpan:ADAMJS';
 
-=attr B<staging>
 
-Boolean to interact with staging server or production.
-
-=attr B<ua>
-
-A L<Mojo::UserAgent>.
-
-=attr B<json>
-
-A L<Mojo::JSON>.
-
-=attr B<consumer_key>
-
-Holds the string that identifies your application.
-
-    $lp->consumer_key('my-app-name');
-
-=attr B<callback_uri>
-
-Callback url to redirect use back to once authenticated.
-
-=attr B<nonce>
-
-Nonce
-
-=attr B<params>
-
-OAuth 1.0a parameters used in request, authenticate, and access
-
-=cut
 has staging => (is => 'ro', isa => 'Int', default => 0);
 has consumer_key => (is => 'ro', isa => 'Str');
 has callback_uri => (is => 'ro', isa => 'Str');
@@ -85,48 +57,23 @@ method _build_params {
     };
 }
 
-=method B<api_host>
-
-Hostname used for authentication
-
-=cut
 method api_host {
     return Mojo::URL->new('https://launchpad.net/') unless $self->staging;
     return Mojo::URL->new('https://staging.launchpad.net');
 }
 
-=method B<request_token_path>
-
-OAuth Request token url
-
-=cut
 method request_token_path {
     return $self->api_host->path('+request-token');
 }
 
-=method B<access_token_path>
-
-OAuth Access token url
-
-=cut
 method access_token_path {
     return $self->api_host->path('+access-token');
 }
 
-=method B<authorize_token_path>
-
-OAuth Authorize token url
-
-=cut
 method authorize_token_path {
     return $self->api_host->path('+authorize-token');
 }
 
-=method B<request_token>
-
-Perform the request-token request
-
-=cut
 method request_token {
     my $tx =
       $self->ua->post(
@@ -138,11 +85,6 @@ method request_token {
     return ($token, $secret);
 }
 
-=method B<authenticate_token>
-
-Perform the authentication request
-
-=cut
 method authorize_token($token, $token_secret) {
     $self->params->{oauth_token} = $token;
     $self->params->{oauth_token_secret} = $token_secret;
@@ -150,11 +92,6 @@ method authorize_token($token, $token_secret) {
     return $url->to_string;
 }
 
-=method B<access_token>
-
-Perform the access token request
-
-=cut
 method access_token($token, $secret) {
     $self->params->{oauth_token} = $token;
     $self->params->{oauth_token_secret} = $secret;
@@ -172,3 +109,7 @@ method access_token($token, $secret) {
 __PACKAGE__->meta->make_immutable;
 1;
 
+
+=head1 AUTHOR
+
+Adam Stokes E<lt>adamjs@cpan.orgE<gt>
