@@ -1,14 +1,11 @@
 requires 'Data::Dumper::Concise';
-requires 'Function::Parameters';
 requires 'Module::Runtime';
 requires 'Mojo::JSON';
 requires 'Mojo::Parameters';
 requires 'Mojo::URL';
 requires 'Mojo::UserAgent';
-requires 'Moose';
-requires 'Moose::Role';
-requires 'Moose::Util';
-requires 'namespace::autoclean';
+requires 'Role::Tiny';
+requires 'Mojolicious';
 
 on build => sub {
     requires 'FindBin';

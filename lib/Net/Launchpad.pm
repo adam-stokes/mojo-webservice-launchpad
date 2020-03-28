@@ -2,48 +2,38 @@ package Net::Launchpad;
 
 # ABSTRACT: Launchpad.net Authentication
 
-use Moose;
-use Function::Parameters;
+use Mojo::Base -base -signatures;
 use Mojo::UserAgent;
 use Mojo::URL;
 use Mojo::Parameters;
 use Data::Dumper::Concise;
-use namespace::autoclean;
 
 our $VERSION = '0.01';
 our $AUTHORITY = 'cpan:ADAMJS';
 
 
-has staging => (is => 'ro', isa => 'Int', default => 0);
-has consumer_key => (is => 'ro', isa => 'Str');
-has callback_uri => (is => 'ro', isa => 'Str');
+has staging => 0;
+has consumer_key;
+has callback_uri;
 
-has ua => (
-    is      => 'ro',
-    isa     => 'Mojo::UserAgent',
-    default => method {
+has ua => sub {
         my $ua = Mojo::UserAgent->new;
-        $ua->transactor->name("Net::Salesforce");
+        $ua->transactor->name("perl-net-launchpad");
         return $ua;
-    }
-);
+};
 
 
-has nonce => (is => 'ro', isa => 'Str', builder => '_build_nonce');
-
-method _build_nonce {
+has nonce => sub {
     my @a = ('A' .. 'Z', 'a' .. 'z', 0 .. 9);
     my $nonce = '';
     for (0 .. 31) {
         $nonce .= $a[rand(scalar(@a))];
     }
     return $nonce;
-}
+};
 
 
-has params => (is => 'rw', isa => 'HashRef', builder => '_build_params');
-
-method _build_params {
+has params => sub {
     return {
         oauth_callback         => $self->callback_uri,
         oauth_consumer_key     => $self->consumer_key,
@@ -57,24 +47,24 @@ method _build_params {
     };
 }
 
-method api_host {
+sub api_host {
     return Mojo::URL->new('https://launchpad.net/') unless $self->staging;
     return Mojo::URL->new('https://staging.launchpad.net');
 }
 
-method request_token_path {
+sub request_token_path {
     return $self->api_host->path('+request-token');
 }
 
-method access_token_path {
+sub access_token_path {
     return $self->api_host->path('+access-token');
 }
 
-method authorize_token_path {
+sub authorize_token_path {
     return $self->api_host->path('+authorize-token');
 }
 
-method request_token {
+sub request_token {
     my $tx =
       $self->ua->post(
         $self->request_token_path->to_string => form => $self->params);
@@ -85,14 +75,14 @@ method request_token {
     return ($token, $secret);
 }
 
-method authorize_token($token, $token_secret) {
+sub authorize_token($token, $token_secret) {
     $self->params->{oauth_token} = $token;
     $self->params->{oauth_token_secret} = $token_secret;
     my $url = $self->authorize_token_path->query($self->params);
     return $url->to_string;
 }
 
-method access_token($token, $secret) {
+sub access_token($token, $secret) {
     $self->params->{oauth_token} = $token;
     $self->params->{oauth_token_secret} = $secret;
     $self->params->{oauth_signature} =
@@ -106,7 +96,6 @@ method access_token($token, $secret) {
     return ($params->param('oauth_token'), $params->param('oauth_token_secret'));
 }
 
-__PACKAGE__->meta->make_immutable;
 1;
 
 

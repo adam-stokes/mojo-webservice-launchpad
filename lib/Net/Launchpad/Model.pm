@@ -2,110 +2,99 @@ package Net::Launchpad::Model;
 
 # ABSTRACT: Model class
 
-use Moose;
+use Mojo::Base 'Net::Launchpad::Client';
 use Moose::Util qw(apply_all_roles is_role does_role search_class_by_role);
-use Function::Parameters;
 use Module::Runtime qw(is_module_name use_package_optimistically);
 use Data::Dumper::Concise;
-use namespace::autoclean;
 
-has lpc => (is => 'ro', isa => 'Net::Launchpad::Client');
-
-method _load_model (Str $name, HashRef $params) {
+sub _load_model ($name, $params) {
     my $model_class = "Net::Launchpad::Model::$name";
     my $model_role  = "Net::Launchpad::Role::$name";
 
     die "Invalid model requested." unless is_module_name($model_class);
     die "Unknown Role module" unless is_module_name($model_role);
 
-    my $model =
-      use_package_optimistically($model_class)->new(result => $params, lpc => $self->lpc);
-
-    my $role =
-      use_package_optimistically($model_role);
-
-    die "$_ is not a role" unless is_role($role);
-    $role->meta->apply($model);
+    my $model = use_package_optimistically($model_class)
+        my $model = $model->with_roles($model_role)
+        return $model->new(result => $params);
 }
 
-method archive (Str $distro, Str $archive_name) {
-    my $params = $self->lpc->get(
+sub archive ($distro, $archive_name) {
+    my $params = $self->get(
         sprintf(
-            "%s/+archive/%s", $self->lpc->api_url, $distro, $archive_name
+            "%s/+archive/%s", $self->api_url, $distro, $archive_name
         )
     );
     return $self->_load_model('Archive', $params);
 }
 
-method bug (Int $id) {
+sub bug (Int $id) {
     my $params =
-      $self->lpc->get(sprintf("%s/bugs/%s", $self->lpc->api_url, $id));
+      $self->get(sprintf("%s/bugs/%s", $self->api_url, $id));
     return $self->_load_model('Bug', $params);
 }
 
-method bugtracker (Str $name) {
-    my $params = $self->lpc->get(
-        sprintf("%s/bugs/bugtrackers/%s", $self->lpc->api_url, $name));
+sub bugtracker ($name) {
+    my $params = $self->get(
+        sprintf("%s/bugs/bugtrackers/%s", $self->api_url, $name));
     return $self->_load_model('BugTracker', $params);
 }
 
-method builder (Str $name) {
+sub builder ($name) {
     my $params =
-      $self->lpc->get(sprintf("%s/builders/%s", $self->lpc->api_url, $name));
+      $self->get(sprintf("%s/builders/%s", $self->api_url, $name));
     return $self->_load_model('Builder', $params);
 }
 
-method country (Str $country_code) {
-    my $params = $self->lpc->get(
-        sprintf("%s/+countries/%s", $self->lpc->api_url, $country_code));
+sub country ($country_code) {
+    my $params = $self->get(
+        sprintf("%s/+countries/%s", $self->api_url, $country_code));
     return $self->_load_model('Country', $params);
 }
 
 
-method branch (Str $name, Str $project_name, Str $branch_name) {
-    my $params = $self->lpc->get(
+sub branch ($name, $project_name, $branch_name) {
+    my $params = $self->get(
         sprintf("%s/%s/%s/%s",
-            $self->lpc->api_url, $name, $project_name, $branch_name)
+            $self->api_url, $name, $project_name, $branch_name)
     );
     return $self->_load_model('Branch', $params);
 }
 
-method people {
+sub people {
     my $params =
-      $self->lpc->get(sprintf("%s/people", $self->lpc->api_url));
+      $self->get(sprintf("%s/people", $self->api_url));
     return $self->_load_model('People', $params);
 }
 
-method person (Str $name) {
+sub person ($name) {
     my $params =
-      $self->lpc->get(sprintf("%s/%s", $self->lpc->api_url, $name));
+      $self->get(sprintf("%s/%s", $self->api_url, $name));
     return $self->_load_model('Person', $params);
 }
 
-method distribution (Str $name) {
+sub distribution ($name) {
     my $params =
-      $self->lpc->get(sprintf("%s/%s", $self->lpc->api_url, $name));
+      $self->get(sprintf("%s/%s", $self->api_url, $name));
     return $self->_load_model('Distribution', $params);
 }
 
-method language ($isocode) {
-    my $params = $self->lpc->get(
-        sprintf("%s/+languages/%s", $self->lpc->api_url, $isocode));
+sub language ($isocode) {
+    my $params = $self->get(
+        sprintf("%s/+languages/%s", $self->api_url, $isocode));
     return $self->_load_model('Language', $params);
 }
 
-method cve (Str $cve) {
+sub cve ($cve) {
     my $params =
-      $self->lpc->get(sprintf("%s/bugs/cve/%s", $self->lpc->api_url, $cve));
+      $self->get(sprintf("%s/bugs/cve/%s", $self->api_url, $cve));
     return $self->_load_model('CVE', $params);
 }
 
-method project (Str $name) {
+sub project ($name) {
     my $params =
-      $self->lpc->get(sprintf("%s/%s", $self->lpc->api_url, $name));
+      $self->get(sprintf("%s/%s", $self->api_url, $name));
     return $self->_load_model('Project', $params);
 }
 
-
-__PACKAGE__->meta->make_immutable;
 1;
