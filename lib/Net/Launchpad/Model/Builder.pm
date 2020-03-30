@@ -30,12 +30,8 @@ virtualized, builderok, status, failnotes and currentjob.
 
 =cut
 
-use Moose;
-use namespace::autoclean;
+use Mojo::Base 'Net::Launchpad::Model::Base';
 
-extends 'Net::Launchpad::Model::Base';
-
-__PACKAGE__->meta->make_immutable;
 1;
 
 __END__

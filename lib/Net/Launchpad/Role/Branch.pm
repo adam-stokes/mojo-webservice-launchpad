@@ -1,85 +1,37 @@
 package Net::Launchpad::Role::Branch;
 
-# ABSTRACT: Branch Roles
+use Mojo::Base 'Net::Launchpad::Role::Common';
 
-use Moose::Role;
-use Function::Parameters;
-
-with 'Net::Launchpad::Role::Common';
-
-=method dependent_branches
-
-Collection of merge proposals that are dependent on this branch
-
-=cut
-
-method dependent_branches {
+sub dependent_branches {
     return $self->collection('dependent_branches');
 }
 
-=method landing_candidates
-
-Collection of merge proposals where this branch is target branch
-
-=cut
-
-method landing_candidates {
+sub landing_candidates {
     return $self->collection('landing_candidates');
 }
 
-=method landing_targets
-
-Collection of merge proposals where this branch is source branch
-
-=cut
-
-method landing_target {
+sub landing_target {
     return $self->collection('landing_targets');
 }
 
-=method reviewer
-
-Reviewer team associated with this branch
-
-=cut
-method reviewer {
+sub reviewer {
     return $self->resource('reviewer');
 }
 
-
-=method sourcepackage
-
-Source package that this branch belongs too
-
-=cut
-method sourcepackage {
+sub sourcepackage {
   return $self->resource('sourcepackage');
 }
 
-=method subscribers
-
-Persons subscribed to this branch
-
-=cut
-method subscribers {
+sub subscribers {
   return $self->collection('subscribers');
 }
 
-=method subscriptions
-
-Branch subscriptions related to this branch
-
-=cut
-method subscriptions {
+sub subscriptions {
   return $self->collection('subscriptions');
 }
 
-=method spec
-
-Specification linked to this branch
-
-=cut
-method spec {
+sub spec {
   return $self->collection('spec');
 }
+
 1;

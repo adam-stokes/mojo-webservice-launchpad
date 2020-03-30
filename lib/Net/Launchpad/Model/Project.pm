@@ -1,5 +1,4 @@
 package Net::Launchpad::Model::Project;
-# ABSTRACT: Project Model interface
 
 =head1 DESCRIPTION
 
@@ -17,10 +16,6 @@ package Net::Launchpad::Model::Project;
     print "Name: ". $project->result->{name};
 
 =cut
-use Moose;
-use namespace::autoclean;
+use Mojo::Base 'Net::Launchpad::Model::Base';
 
-extends 'Net::Launchpad::Model::Base';
-
-__PACKAGE__->meta->make_immutable;
 1;

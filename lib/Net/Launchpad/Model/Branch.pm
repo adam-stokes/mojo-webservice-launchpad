@@ -1,12 +1,5 @@
 package Net::Launchpad::Model::Branch;
-# ABSTRACT: Branch Model
 
-use Moose;
-use namespace::autoclean;
+use Mojo::Base 'Net::Launchpad::Model::Base';
 
-extends 'Net::Launchpad::Model::Base';
-
-__PACKAGE__->meta->make_immutable;
 1;
-
-__END__

@@ -6,6 +6,9 @@ requires 'Mojo::URL';
 requires 'Mojo::UserAgent';
 requires 'Role::Tiny';
 requires 'Mojolicious';
+requires 'List::AllUtils';
+requires 'Modern::Perl';
+requires 'Class::Load';
 
 on build => sub {
     requires 'FindBin';

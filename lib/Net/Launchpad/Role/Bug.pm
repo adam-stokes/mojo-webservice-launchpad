@@ -1,69 +1,35 @@
 package Net::Launchpad::Role::Bug;
 
-# ABSTRACT: Bug roles
+use Mojo::Base -role;
 
-use Moose::Role;
-use Function::Parameters;
 
-with 'Net::Launchpad::Role::Common';
-
-=method tasks
-
-Returns a list of entries in the tasks object.
-
-=cut
-
-method tasks {
+sub tasks {
+    my $self = shift;
     return $self->collection('bug_tasks');
 }
 
-=method watches
-
-Returns bug watch collection
-
-=cut
-
-method watches {
+sub watches {
+    my $self = shift;
     return $self->collection('bug_watches');
 }
 
-=method attachments
-
-Returns list of bug attachments
-
-=cut
-
-method attachments {
+sub attachments {
+    my $self = shift;
     return $self->collection('attachments');
 }
 
-=method activity
-
-Returns a bug activity collection
-
-=cut
-
-method activity {
+sub activity {
+    my $self = shift;
     return $self->collection('activity');
 }
 
-=method duplicate_of
-
-Returns a bug resource that the specific bug is a duplicate of
-
-=cut
-
-method duplicate_of {
+sub duplicate_of {
+    my $self = shift;
     return $self->resource('duplicate_of');
 }
 
-=method messages
-
-Returns bug messages associated with Bug.
-
-=cut
-
-method messages {
+sub messages {
+    my $self = shift;
     return $self->collection('messages');
 }
 

@@ -1,12 +1,7 @@
 package Net::Launchpad::Model::Archive;
-# ABSTRACT: Archive Model
 
-use Moose;
-use namespace::autoclean;
+use Mojo::Base 'Net::Launchpad::Model::Base';
 
-extends 'Net::Launchpad::Model::Base';
-
-__PACKAGE__->meta->make_immutable;
 1;
 
 __END__

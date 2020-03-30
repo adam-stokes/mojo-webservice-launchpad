@@ -16,10 +16,7 @@ package Net::Launchpad::Model::Person;
 
 =cut
 
-use Moose;
-use namespace::autoclean;
-extends 'Net::Launchpad::Model::Base';
+use Mojo::Base 'Net::Launchpad::Model::Base';
 
-__PACKAGE__->meta->make_immutable;
 1;
 

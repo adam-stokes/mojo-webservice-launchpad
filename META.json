@@ -1,5 +1,5 @@
 {
-   "abstract" : "Launchpad.net Authentication",
+   "abstract" : "API Client to launchpad.net",
    "author" : [
       "Adam Stokes <adamjs@cpan.org>"
    ],
@@ -52,17 +52,17 @@
       },
       "runtime" : {
          "requires" : {
+            "Class::Load" : "0",
             "Data::Dumper::Concise" : "0",
-            "Function::Parameters" : "0",
+            "List::AllUtils" : "0",
+            "Modern::Perl" : "0",
             "Module::Runtime" : "0",
             "Mojo::JSON" : "0",
             "Mojo::Parameters" : "0",
             "Mojo::URL" : "0",
             "Mojo::UserAgent" : "0",
-            "Moose" : "0",
-            "Moose::Role" : "0",
-            "Moose::Util" : "0",
-            "namespace::autoclean" : "0"
+            "Mojolicious" : "0",
+            "Role::Tiny" : "0"
          }
       }
    },
@@ -80,7 +80,8 @@
    },
    "version" : "0.01",
    "x_contributors" : [
-      "Adam Stokes <adam.stokes@ubuntu.com>"
+      "Adam Stokes <adam.stokes@ubuntu.com>",
+      "Adam Stokes <battlemidget@users.noreply.github.com>"
    ],
    "x_serialization_backend" : "JSON::PP version 4.02",
    "x_static_install" : 1

@@ -1,5 +1,4 @@
 package Net::Launchpad::Model::Bug;
-# ABSTRACT: Bug Model
 
 =head1 SYNOPSIS
 
@@ -18,13 +17,15 @@ package Net::Launchpad::Model::Bug;
 
 =cut
 
-use Moose;
-use namespace::autoclean;
+use Mojo::Base 'Net::Launchpad::Client';
+use Data::Dumper::Concise;
 
-extends 'Net::Launchpad::Model::Base';
+sub bug {
+    my ($self, $id) = @_;
+    my $res = $self->get( sprintf( "%s/bugs/%s", $self->api_url, $id ) );
+    print Dumper($res);
+    return $res;
+}
 
-__PACKAGE__->meta->make_immutable;
 1;
-
-__END__
 
