@@ -18,14 +18,36 @@ package Net::Launchpad::Model::Bug;
 =cut
 
 use Mojo::Base 'Net::Launchpad::Client';
-use Data::Dumper::Concise;
 
-sub bug {
+has 'bug';
+
+sub by_id {
     my ($self, $id) = @_;
-    my $res = $self->get( sprintf( "%s/bugs/%s", $self->api_url, $id ) );
-    print Dumper($res);
-    return $res;
+    print $self->api_url;
+    $self->bug(
+        $self->get( sprintf( "%s/bugs/%s", $self->api_url, $id ) ));
 }
+
+sub title {
+    my $self = shift;
+    return $self->bug->{title};
+}
+
+sub description {
+    my $self = shift;
+    return $self->bug->{description};
+}
+
+sub tasks {
+    my $self = shift;
+    return $self->get($self->bug->{bug_tasks_collection_link})->{entries};
+}
+
+sub messages {
+    my $self = shift;
+    return $self->get($self->bug->{messages_collection_link})->{entries};
+}
+
 
 1;
 

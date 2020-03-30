@@ -3,34 +3,39 @@
 # for quick tests only, should not be depended upon for
 # proper examples of current api.
 
-use Modern::Perl;
+use strict;
+use warnings;
 use FindBin;
-use lib "$FindBin::Bin/../../lib";
+use lib "$FindBin::Bin/../lib";
 use Net::Launchpad::Client;
-use Net::Launchpad::Model;
-use List::AllUtils qw(first);
+# use List::AllUtils qw(first);
 use Data::Dumper::Concise;
+
+die "Missing envs"
+  unless $ENV{LP_CONSUMER_KEY}
+  && $ENV{LP_ACCESS_TOKEN}
+  && $ENV{LP_ACCESS_TOKEN_SECRET};
 
 my $public_bug = $ENV{LP_BUG} || '1388929';
 
-my $client = Net::Launchpad::Client->new(
+my $lp = Net::Launchpad::Client->new(
     consumer_key        => $ENV{LP_CONSUMER_KEY},
     access_token        => $ENV{LP_ACCESS_TOKEN},
-    access_token_secret => $ENV{LP_ACCESS_TOKEN_SECRET}
+    access_token_secret => $ENV{LP_ACCESS_TOKEN_SECRET},
 );
 
-my $model = $client->model("Bug");
+my $bug = $lp->model("Bug")->by_id($public_bug);
 
-my $bug = $model->bug($public_bug);
-print Dumper($bug)
+print Dumper( $bug->title );
+print Dumper( $bug->description );
+print Dumper( $bug->tasks );
+print Dumper( $bug->messages );
 
-  # my $tasks = $bug->tasks;
+# my $branch = $model->branch('~adam-stokes', '+junk', 'cloud-installer');
+#print Dumper($branch->dependent_branches);
 
-  # my $branch = $model->branch('~adam-stokes', '+junk', 'cloud-installer');
-  #print Dumper($branch->dependent_branches);
-
-  # my $project = $model->project('cloud-installer');
-  # print Dumper($project->{result});
+# my $project = $model->project('cloud-installer');
+# print Dumper($project->{result});
 
 #p $bug_item;
 # p $bug->tasks;

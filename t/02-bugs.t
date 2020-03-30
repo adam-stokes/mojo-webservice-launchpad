@@ -7,7 +7,6 @@ use Test::Exception;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use Data::Dumper::Concise;
-use Moose::Util qw(does_role);
 
 plan skip_all => 'must export launchpad credentials to enable these tests'
   unless $ENV{LP_CONSUMER_KEY}
@@ -25,13 +24,11 @@ my $lp = Net::Launchpad::Client->new(
     access_token_secret => $ENV{LP_ACCESS_TOKEN_SECRET}
 );
 
-use_ok('Net::Launchpad::Model');
-my $model = Net::Launchpad::Model->new(lpc => $lp);
-
+use_ok('Net::Launchpad::Model::Bug');
+my $model = $lp->model("Bug")->by_id(1283310);
 
 # bug
 my $bug = $model->bug(1283310);
-ok(does_role($bug, 'Net::Launchpad::Role::Bug'), 'is a bug role');
-ok($bug->result->{id} eq '1283310', $bug->result->{id} . " found correctly.");
+ok($bug->{id} eq '1283310', $bug->{id} . " found correctly.");
 
 done_testing;

@@ -22,7 +22,7 @@ use Class::Load ':all';
 has 'access_token';
 has 'access_token_secret';
 
-has 'authorization_header' => sub {
+sub authorization_header {
     my $self   = shift;
     my $header = join( ",",
         'OAuth realm="https://api.launchpad.net"',
@@ -33,15 +33,16 @@ has 'authorization_header' => sub {
         'oauth_token=' . $self->access_token,
         'oauth_token_secret=' . $self->access_token_secret,
         'oauth_timestamp=' . time,
-        'oauth_nonce=' . $self->nonce );
+                       'oauth_nonce=' . $self->nonce );
+    print Dumper($header);
     return $header;
 };
 
 sub api_url {
     my $self = shift;
-    return Mojo::URL->new('https://api.launchpad.net/devel/')
+    return Mojo::URL->new('https://api.launchpad.net/devel')
       unless $self->staging;
-    return Mojo::URL->new('https://api.staging.launchpad.net/devel/');
+    return Mojo::URL->new('https://api.staging.launchpad.net/devel');
 }
 
 sub __path_cons {
@@ -66,7 +67,6 @@ sub post {
 sub get {
     my ( $self, $resource ) = @_;
     my $uri = $self->__path_cons($resource);
-    print Dumper($uri);
     my $tx =
       $self->ua->get(
         $uri->to_string => { 'Authorization' => $self->authorization_header } );
@@ -80,11 +80,9 @@ sub get {
 }
 
 sub model {
-    my ( $self, $name ) = @_;
-    my $model_class = "Net::Launchpad::Model::$name";
-    my $obj         = load_class($model_class)->new($self);
-    return $obj->with_roles( "Net::Launchpad::Role::Common",
-        "Net::Launchpad::Role::$name" );
+    my ( $self, $class ) = @_;
+    my $model = "Net::Launchpad::Model::$class";
+    return load_class($model)->new($self);
 }
 
 1;
