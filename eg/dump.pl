@@ -35,6 +35,10 @@ print Dumper( $bug->messages );
 print Dumper( $bug->attachments );
 print Dumper( $bug->activity );
 
+my $person = $lp->query("Person")->by_name("~adam-stokes");
+print Dumper($person->name);
+print Dumper($person->timezone);
+
 # my $branch = $model->branch('~adam-stokes', '+junk', 'cloud-installer');
 #print Dumper($branch->dependent_branches);
 
