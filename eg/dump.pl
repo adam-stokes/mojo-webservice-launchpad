@@ -25,7 +25,7 @@ my $lp = Net::Launchpad::Client->new(
     access_token_secret => $ENV{LP_ACCESS_TOKEN_SECRET},
 );
 
-my $bug = $lp->model("Bug")->by_id($public_bug);
+my $bug = $lp->query("Bug")->by_id($public_bug);
 
 print Dumper( $bug->bug );
 print Dumper( $bug->title );

@@ -79,9 +79,9 @@ sub get {
     }
 }
 
-sub model {
+sub query {
     my ( $self, $class ) = @_;
-    my $model = "Net::Launchpad::Model::$class";
+    my $model = "Net::Launchpad::Query::$class";
     return load_class($model)->new($self);
 }
 

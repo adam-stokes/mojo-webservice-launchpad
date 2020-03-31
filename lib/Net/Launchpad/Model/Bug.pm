@@ -17,15 +17,10 @@ package Net::Launchpad::Model::Bug;
 
 =cut
 
-use Mojo::Base 'Net::Launchpad::Client';
+use Mojo::Base -base;
 
 has 'bug';
-
-sub by_id {
-    my ( $self, $id ) = @_;
-    print $self->api_url;
-    $self->bug( $self->get( sprintf( "%s/bugs/%s", $self->api_url, $id ) ) );
-}
+has 'client';
 
 sub id {
     my $self = shift;
@@ -64,32 +59,32 @@ sub last_updated {
 
 sub tasks {
     my $self = shift;
-    return $self->get( $self->bug->{bug_tasks_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{bug_tasks_collection_link} )->{entries};
 }
 
 sub messages {
     my $self = shift;
-    return $self->get( $self->bug->{messages_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{messages_collection_link} )->{entries};
 }
 
 sub attachments {
     my $self = shift;
-    return $self->get( $self->bug->{attachments_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{attachments_collection_link} )->{entries};
 }
 
 sub linked_branches {
     my $self = shift;
-    return $self->get( $self->bug->{linked_branches_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{linked_branches_collection_link} )->{entries};
 }
 
 sub linked_merge_proposals {
     my $self = shift;
-    return $self->get( $self->bug->{linked_merge_proposals_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{linked_merge_proposals_collection_link} )->{entries};
 }
 
 sub activity {
     my $self = shift;
-    return $self->get( $self->bug->{activity_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{activity_collection_link} )->{entries};
 }
 
 
