@@ -40,7 +40,9 @@ print Dumper($person->name);
 print Dumper($person->timezone);
 
 my $person_by_name = $lp->resource("Person")->find("adam-stokes");
-print Dumper($person_by_name)
+foreach my $p (@{$person_by_name}) {
+    print Dumper($p->name);
+}
 
 # my $branch = $model->branch('~adam-stokes', '+junk', 'cloud-installer');
 #print Dumper($branch->dependent_branches);

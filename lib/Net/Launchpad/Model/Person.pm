@@ -1,6 +1,7 @@
 package Net::Launchpad::Model::Person;
 
 use Mojo::Base -base;
+use Data::Dumper::Concise;
 
 has 'person';
 has 'client';
