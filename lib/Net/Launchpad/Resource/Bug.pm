@@ -1,4 +1,4 @@
-package Net::Launchpad::Query::Bug;
+package Net::Launchpad::Resource::Bug;
 
 use Mojo::Base 'Net::Launchpad::Client';
 use Net::Launchpad::Model::Bug;

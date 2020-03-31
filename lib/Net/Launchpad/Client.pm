@@ -12,11 +12,9 @@ package Net::Launchpad::Client;
 =cut
 
 use Mojo::Base 'Net::Launchpad';
-use Mojo::UserAgent;
 use Mojo::URL;
 use Mojo::JSON qw(decode_json);
 use Mojo::Parameters;
-use Data::Dumper::Concise;
 use Class::Load ':all';
 
 has 'access_token';
@@ -34,7 +32,6 @@ sub authorization_header {
         'oauth_token_secret=' . $self->access_token_secret,
         'oauth_timestamp=' . time,
                        'oauth_nonce=' . $self->nonce );
-    print Dumper($header);
     return $header;
 };
 
@@ -45,7 +42,7 @@ sub api_url {
     return Mojo::URL->new('https://api.staging.launchpad.net/devel');
 }
 
-sub __path_cons {
+sub build_uri {
     my ( $self, $path ) = @_;
     if ( $path =~ /^http.*api/ ) {
         return Mojo::URL->new($path);
@@ -56,7 +53,7 @@ sub __path_cons {
 sub post {
     my ( $self, $resource, $params ) = @_;
     my $params_hash = Mojo::Parameters->new($params);
-    my $uri         = $self->__path_cons($resource);
+    my $uri         = $self->build_uri($resource);
     my $tx =
       $self->ua->post( $uri->to_string =>
           { 'Authorization' => $self->authorization_header } => form =>
@@ -66,7 +63,7 @@ sub post {
 
 sub get {
     my ( $self, $resource ) = @_;
-    my $uri = $self->__path_cons($resource);
+    my $uri = $self->build_uri($resource);
     my $tx =
       $self->ua->get(
         $uri->to_string => { 'Authorization' => $self->authorization_header } );
@@ -79,9 +76,9 @@ sub get {
     }
 }
 
-sub query {
+sub resource {
     my ( $self, $class ) = @_;
-    my $model = "Net::Launchpad::Query::$class";
+    my $model = "Net::Launchpad::Resource::$class";
     return load_class($model)->new($self);
 }
 

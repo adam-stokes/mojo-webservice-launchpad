@@ -27,7 +27,7 @@ my $lp = Net::Launchpad::Client->new(
 use_ok('Net::Launchpad::Model::Person');
 
 # person
-my $person = $lp->query("Person")->by_name('~adam-stokes');
+my $person = $lp->resource('Person')->by_name('~adam-stokes');
 ok(
     $person->name eq 'adam-stokes',
     $person->name . " found correctly."
@@ -35,11 +35,11 @@ ok(
 
 # my $query           = Net::Launchpad::Query->new( lpc => $lp );
 # my $person_by_email = $query->people->get_by_email('adam.stokes@ubuntu.com');
-# my $person_by_fuzzy = $query->people->find('adam.stokes');
-# ok(
-#     $person_by_fuzzy->result->{total_size} == 1,
-#     "a least one 'adam.stokes' found correctly."
-# );
+my $person_by_fuzzy = $lp->resource('Person')->find('adam-stokes');
+ok(
+    $person_by_fuzzy->{total_size} == 1,
+    "a least one 'adam.stokes' found correctly."
+);
 # ok(
 #     $person_by_email->result->{name} eq 'adam-stokes',
 #     $person_by_email->result->{name} . " found correctly."
