@@ -8,6 +8,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use Net::Launchpad::Client;
+
 # use List::AllUtils qw(first);
 use Data::Dumper::Concise;
 
@@ -26,10 +27,13 @@ my $lp = Net::Launchpad::Client->new(
 
 my $bug = $lp->model("Bug")->by_id($public_bug);
 
+print Dumper( $bug->bug );
 print Dumper( $bug->title );
 print Dumper( $bug->description );
 print Dumper( $bug->tasks );
 print Dumper( $bug->messages );
+print Dumper( $bug->attachments );
+print Dumper( $bug->activity );
 
 # my $branch = $model->branch('~adam-stokes', '+junk', 'cloud-installer');
 #print Dumper($branch->dependent_branches);
