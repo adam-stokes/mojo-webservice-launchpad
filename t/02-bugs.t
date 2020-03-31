@@ -25,10 +25,9 @@ my $lp = Net::Launchpad::Client->new(
 );
 
 use_ok('Net::Launchpad::Model::Bug');
-my $model = $lp->model("Bug")->by_id(1283310);
+my $bug = $lp->model("Bug")->by_id(1283310);
 
 # bug
-my $bug = $model->bug(1283310);
-ok($bug->{id} eq '1283310', $bug->{id} . " found correctly.");
+ok($bug->id eq '1283310', $bug->id . " found correctly.");
 
 done_testing;

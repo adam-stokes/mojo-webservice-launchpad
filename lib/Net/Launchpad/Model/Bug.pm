@@ -22,10 +22,14 @@ use Mojo::Base 'Net::Launchpad::Client';
 has 'bug';
 
 sub by_id {
-    my ($self, $id) = @_;
+    my ( $self, $id ) = @_;
     print $self->api_url;
-    $self->bug(
-        $self->get( sprintf( "%s/bugs/%s", $self->api_url, $id ) ));
+    $self->bug( $self->get( sprintf( "%s/bugs/%s", $self->api_url, $id ) ) );
+}
+
+sub id {
+    my $self = shift;
+    return $self->bug->{id};
 }
 
 sub title {
@@ -40,14 +44,13 @@ sub description {
 
 sub tasks {
     my $self = shift;
-    return $self->get($self->bug->{bug_tasks_collection_link})->{entries};
+    return $self->get( $self->bug->{bug_tasks_collection_link} )->{entries};
 }
 
 sub messages {
     my $self = shift;
-    return $self->get($self->bug->{messages_collection_link})->{entries};
+    return $self->get( $self->bug->{messages_collection_link} )->{entries};
 }
-
 
 1;
 

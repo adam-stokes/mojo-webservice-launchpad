@@ -55,12 +55,6 @@
             "Class::Load" : "0",
             "Data::Dumper::Concise" : "0",
             "List::AllUtils" : "0",
-            "Modern::Perl" : "0",
-            "Module::Runtime" : "0",
-            "Mojo::JSON" : "0",
-            "Mojo::Parameters" : "0",
-            "Mojo::URL" : "0",
-            "Mojo::UserAgent" : "0",
             "Mojolicious" : "0",
             "Role::Tiny" : "0"
          }
