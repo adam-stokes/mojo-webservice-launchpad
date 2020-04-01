@@ -36,5 +36,16 @@ sub timezone {
     return $self->person->{time_zone};
 }
 
+sub assigned_bugs {
+    my $self   = shift;
+    my $params = {
+        'ws.op'    => 'searchTasks',
+            'assignee' => $self->person->{self_link}
+    };
+    my $uri = $self->client->build_uri(sprintf("%s/%s", $self->client->api_url, '~'.$self->name));
+    my $results = $self->client->get($uri->query($params)->to_string);
+    return $results->{entries};
+}
+
 1;
 

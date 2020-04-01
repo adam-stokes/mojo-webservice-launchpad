@@ -25,7 +25,7 @@ my $lp = Net::Launchpad::Client->new(
     access_token_secret => $ENV{LP_ACCESS_TOKEN_SECRET},
 );
 
-# my $bug = $lp->resource("Bug")->by_id($public_bug);
+my $bug = $lp->resource("Bug")->by_id($public_bug);
 
 # print Dumper( $bug->bug );
 # print Dumper( $bug->title );
@@ -36,13 +36,16 @@ my $lp = Net::Launchpad::Client->new(
 # print Dumper( $bug->activity );
 
 my $person = $lp->resource("Person")->by_name("~adam-stokes");
-print Dumper($person->name);
-print Dumper($person->timezone);
+# print Dumper($person->person);
+# print Dumper($person->name);
+# print Dumper($person->timezone);
+print Dumper($person->assigned_bugs);
 
 my $person_by_name = $lp->resource("Person")->find("adam-stokes");
-foreach my $p (@{$person_by_name}) {
-    print Dumper($p->name);
-}
+print Dumper(scalar @$person_by_name == 1);
+# foreach my $p (@{$person_by_name}) {
+#     print Dumper($p->name);
+# }
 
 # my $branch = $model->branch('~adam-stokes', '+junk', 'cloud-installer');
 #print Dumper($branch->dependent_branches);
