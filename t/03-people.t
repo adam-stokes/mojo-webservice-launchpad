@@ -6,7 +6,6 @@ use Test::More;
 use Test::Exception;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use Data::Dumper::Concise;
 
 plan skip_all => 'must export launchpad credentials to enable these tests'
   unless $ENV{LP_CONSUMER_KEY}

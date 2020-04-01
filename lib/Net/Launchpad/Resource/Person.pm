@@ -2,8 +2,6 @@ package Net::Launchpad::Resource::Person;
 
 use Mojo::Base 'Net::Launchpad::Client';
 use Net::Launchpad::Model::Person;
-use Data::Dumper::Concise;
-use Scalar::Util qw(reftype);
 
 sub by_name {
     my ( $self, $name ) = @_;

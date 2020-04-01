@@ -1,7 +1,5 @@
-requires 'Data::Dumper::Concise';
 requires 'Role::Tiny';
 requires 'Mojolicious';
-requires 'List::AllUtils';
 requires 'Class::Load';
 
 on build => sub {

@@ -53,8 +53,6 @@
       "runtime" : {
          "requires" : {
             "Class::Load" : "0",
-            "Data::Dumper::Concise" : "0",
-            "List::AllUtils" : "0",
             "Mojolicious" : "0",
             "Role::Tiny" : "0"
          }
