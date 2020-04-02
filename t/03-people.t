@@ -36,7 +36,7 @@ ok(
 # my $person_by_email = $query->people->get_by_email('adam.stokes@ubuntu.com');
 my $person_by_fuzzy = $lp->resource('Person')->find('adam-stokes');
 ok(
-    scalar $person_by_fuzzy == 1,
+    scalar @$person_by_fuzzy == 1,
     "a least one 'adam-stokes' found correctly."
 );
 # ok(
