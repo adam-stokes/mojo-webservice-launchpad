@@ -59,34 +59,39 @@ sub last_updated {
 
 sub tasks {
     my $self = shift;
-    return $self->client->get( $self->bug->{bug_tasks_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{bug_tasks_collection_link} )
+      ->{entries};
 }
 
 sub messages {
     my $self = shift;
-    return $self->client->get( $self->bug->{messages_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{messages_collection_link} )
+      ->{entries};
 }
 
 sub attachments {
     my $self = shift;
-    return $self->client->get( $self->bug->{attachments_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{attachments_collection_link} )
+      ->{entries};
 }
 
 sub linked_branches {
     my $self = shift;
-    return $self->client->get( $self->bug->{linked_branches_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{linked_branches_collection_link} )
+      ->{entries};
 }
 
 sub linked_merge_proposals {
     my $self = shift;
-    return $self->client->get( $self->bug->{linked_merge_proposals_collection_link} )->{entries};
+    return $self->client->get(
+        $self->bug->{linked_merge_proposals_collection_link} )->{entries};
 }
 
 sub activity {
     my $self = shift;
-    return $self->client->get( $self->bug->{activity_collection_link} )->{entries};
+    return $self->client->get( $self->bug->{activity_collection_link} )
+      ->{entries};
 }
-
 
 1;
 
