@@ -68,7 +68,7 @@ sub request_token {
     my $tx =
       $self->ua->post(
         $self->request_token_path->to_string => form => $self->params );
-    die $tx->res->body unless $tx->success;
+    die $tx->res->body unless $tx->result->is_success;
     my $params = Mojo::Parameters->new( $tx->res->body );
     my $token  = $params->param('oauth_token');
     my $secret = $params->param('oauth_token_secret');
