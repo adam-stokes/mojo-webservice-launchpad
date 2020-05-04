@@ -5,9 +5,14 @@ use Net::Launchpad::Model::Person;
 
 sub by_name {
     my ( $self, $name ) = @_;
-    return Net::Launchpad::Model::Person->new(
-        person => $self->get( sprintf( "%s/%s", $self->api_url, $name ) ),
-        client => $self
+    return $self->get( sprintf( "%s/%s", $self->api_url, $name ) )->then(
+        sub {
+            my $mojo = shift;
+            return Net::Launchpad::Model::Person->new(
+                person => $mojo->res->json,
+                client => $self
+            );
+        }
     );
 }
 
@@ -19,15 +24,18 @@ sub find {
     };
     my @records = ();
     my $uri = $self->build_uri( sprintf( "%s/%s", $self->api_url, 'people' ) );
-    my $results = $self->get( $uri->query($params)->to_string );
-    foreach my $item ( $results->{entries} ) {
-        push @records,
-          Net::Launchpad::Model::Person->new(
-            person => $item,
-            client => $self
-          );
-    }
-    return \@records;
+    return $self->get( $uri->query($params)->to_string )->then(
+        sub {
+            my $mojo = shift;
+            foreach my $item ( $mojo->res->json->{entries} ) {
+                push @records,
+                  Net::Launchpad::Model::Person->new(
+                    person => $item,
+                    client => $self
+                  );
+            }
+            return \@records;
+        }
+    );
 }
-
 1;

@@ -12,6 +12,7 @@ package Net::Launchpad::Client;
 =cut
 
 use Mojo::Base 'Net::Launchpad';
+use Mojo::Promise;
 use Mojo::URL;
 use Mojo::JSON qw(decode_json);
 use Mojo::Parameters;
@@ -31,9 +32,9 @@ sub authorization_header {
         'oauth_token=' . $self->access_token,
         'oauth_token_secret=' . $self->access_token_secret,
         'oauth_timestamp=' . time,
-                       'oauth_nonce=' . $self->nonce );
+        'oauth_nonce=' . $self->nonce );
     return $header;
-};
+}
 
 sub api_url {
     my $self = shift;
@@ -63,17 +64,10 @@ sub post {
 
 sub get {
     my ( $self, $resource ) = @_;
-    my $uri = $self->build_uri($resource);
-    my $tx =
-      $self->ua->get(
-        $uri->to_string => { 'Authorization' => $self->authorization_header } );
-    if ( $tx->result->is_success ) {
-        return decode_json( $tx->res->body );
-    }
-    else {
-        my $err = $tx->error;
-        die "$err->{code} response: $err->{message}" if $err->{code};
-    }
+    my $uri     = $self->build_uri($resource);
+    return $self->ua->get_p(
+        $uri->to_string =>
+        { 'Authorization' => $self->authorization_header });
 }
 
 sub resource {

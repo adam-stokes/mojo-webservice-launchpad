@@ -91,7 +91,7 @@ sub access_token {
     my $tx =
       $self->ua->post(
         $self->access_token_path->to_string => form => $self->params );
-    die $tx->res->body unless $tx->result->is_error;
+    # die $tx->res->body unless $tx->result->is_error;
     my $params = Mojo::Parameters->new( $tx->res->body );
     return ( $params->param('oauth_token'),
         $params->param('oauth_token_secret') );

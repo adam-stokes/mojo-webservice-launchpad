@@ -1,6 +1,7 @@
 requires 'Role::Tiny';
 requires 'Mojolicious';
 requires 'Class::Load';
+requires 'IO::Socket::SSL';
 
 on build => sub {
     requires 'FindBin';
@@ -9,4 +10,5 @@ on build => sub {
     requires 'lib';
     requires 'strict';
     requires 'warnings';
+    requires 'Data::Dumper::Concise';
 };

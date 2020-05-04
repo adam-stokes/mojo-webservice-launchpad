@@ -8,6 +8,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use Net::Launchpad::Client;
+use Mojo::IOLoop;
 
 # use List::AllUtils qw(first);
 use Data::Dumper::Concise;
@@ -25,24 +26,42 @@ my $lp = Net::Launchpad::Client->new(
     access_token_secret => $ENV{LP_ACCESS_TOKEN_SECRET},
 );
 
-my $bug = $lp->resource("Bug")->by_id($public_bug);
+my $bug_p    = $lp->resource("Bug")->by_id($public_bug);
+my $person_p = $lp->resource("Person")->by_name("~adam-stokes");
 
-# print Dumper( $bug->bug );
-# print Dumper( $bug->title );
-# print Dumper( $bug->description );
-# print Dumper( $bug->tasks );
-# print Dumper( $bug->messages );
-# print Dumper( $bug->attachments );
-# print Dumper( $bug->activity );
+Mojo::Promise->all( $bug_p, $person_p )->then(
+    sub {
+        my ( $bug, $person ) = @_;
+        print Dumper( $bug->[0]->title );
+        print Dumper( $bug->[0]->description );
+        $bug->[0]->tasks->then(
+            sub {
+                my $entries = shift;
+                print Dumper($entries);
+            }
+        );
+        print Dumper( $bug->[0]->messages );
+        print Dumper( $bug->[0]->attachments );
+        $bug->[0]->activity->then(
+            sub {
+                my $entries = shift;
+                print Dumper($entries);
+            }
+            );
+        print Dumper( $person->[0]->person );
+        print Dumper( $person->[0]->name );
+        print Dumper( $person->[0]->timezone );
+        $person->[0]->assigned_bugs->then(
+            sub {
+                my $entries = shift;
+                print Dumper($entries);
+            }
+        );
+    }
+)->wait;
 
-my $person = $lp->resource("Person")->by_name("~adam-stokes");
-# print Dumper($person->person);
-# print Dumper($person->name);
-# print Dumper($person->timezone);
-print Dumper($person->assigned_bugs);
-
-my $person_by_name = $lp->resource("Person")->find("adam-stokes");
-print Dumper(scalar @$person_by_name == 1);
+# my $person_by_name = $lp->resource("Person")->find("adam-stokes");
+# print Dumper(scalar @$person_by_name == 1);
 # foreach my $p (@{$person_by_name}) {
 #     print Dumper($p->name);
 # }
@@ -63,3 +82,5 @@ print Dumper(scalar @$person_by_name == 1);
 # my $person = $c->model('Person')->by_name('~adam-stokes');
 # p $person;
 # p $person->ppas;
+
+# Mojo::IOLoop->start unless Mojo::IOLoop->is_running;

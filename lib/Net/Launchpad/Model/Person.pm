@@ -42,8 +42,7 @@ sub assigned_bugs {
             'assignee' => $self->person->{self_link}
     };
     my $uri = $self->client->build_uri(sprintf("%s/%s", $self->client->api_url, '~'.$self->name));
-    my $results = $self->client->get($uri->query($params)->to_string);
-    return $results->{entries};
+    return $self->client->get($uri->query($params)->to_string)->then(sub { my $mojo = shift; return $mojo->res->json->{entries}});
 }
 
 1;
