@@ -53,6 +53,35 @@ DISTRIBUTIONS
       base 0
       strict 0
       warnings 0
+  Future-0.45
+    pathname: P/PE/PEVANS/Future-0.45.tar.gz
+    provides:
+      Future 0.45
+      Future::Exception 0.45
+      Future::Mutex 0.45
+      Future::Queue 0.45
+      Future::Utils 0.45
+      Test::Future 0.45
+      Test::Future::Deferred 0.45
+    requirements:
+      Carp 1.25
+      Module::Build 0.4004
+      Test::Builder::Module 0
+      Time::HiRes 0
+      perl 5.010
+  Future-AsyncAwait-0.40
+    pathname: P/PE/PEVANS/Future-AsyncAwait-0.40.tar.gz
+    provides:
+      Future::AsyncAwait 0.40
+      Future::AsyncAwait::Awaitable 0.40
+      Test::Future::AsyncAwait::Awaitable 0.40
+    requirements:
+      ExtUtils::CBuilder 0
+      Future 0
+      Module::Build 0.4004
+      XS::Parse::Sublike 0.06
+      XS::Parse::Sublike::Builder 0
+      perl 5.016
   IO-Socket-SSL-2.068
     pathname: S/SU/SULLR/IO-Socket-SSL-2.068.tar.gz
     provides:
@@ -374,3 +403,12 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  XS-Parse-Sublike-0.07
+    pathname: P/PE/PEVANS/XS-Parse-Sublike-0.07.tar.gz
+    provides:
+      XS::Parse::Sublike 0.07
+      XS::Parse::Sublike::Builder 0.07
+    requirements:
+      ExtUtils::CBuilder 0
+      Module::Build 0.4004
+      perl 5.016

@@ -3,12 +3,10 @@
 # for quick tests only, should not be depended upon for
 # proper examples of current api.
 
-use strict;
-use warnings;
+use Mojo::Base -base, -async_await;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use Net::Launchpad::Client;
-use Mojo::IOLoop;
 
 # use List::AllUtils qw(first);
 use Data::Dumper::Concise;
@@ -26,39 +24,51 @@ my $lp = Net::Launchpad::Client->new(
     access_token_secret => $ENV{LP_ACCESS_TOKEN_SECRET},
 );
 
-my $bug_p    = $lp->resource("Bug")->by_id($public_bug);
-my $person_p = $lp->resource("Person")->by_name("~adam-stokes");
+async sub main {
+    my $bug_p    = await $lp->resource("Bug")->by_id($public_bug);
+    my $person_p = await $lp->resource("Person")->by_name("~adam-stokes");
+    print Dumper( $bug_p->bug );
+    print Dumper( await $bug_p->tasks );
 
-Mojo::Promise->all( $bug_p, $person_p )->then(
-    sub {
-        my ( $bug, $person ) = @_;
-        print Dumper( $bug->[0]->title );
-        print Dumper( $bug->[0]->description );
-        $bug->[0]->tasks->then(
-            sub {
-                my $entries = shift;
-                print Dumper($entries);
-            }
-        );
-        print Dumper( $bug->[0]->messages );
-        print Dumper( $bug->[0]->attachments );
-        $bug->[0]->activity->then(
-            sub {
-                my $entries = shift;
-                print Dumper($entries);
-            }
-            );
-        print Dumper( $person->[0]->person );
-        print Dumper( $person->[0]->name );
-        print Dumper( $person->[0]->timezone );
-        $person->[0]->assigned_bugs->then(
-            sub {
-                my $entries = shift;
-                print Dumper($entries);
-            }
-        );
+    print Dumper( $person_p->person );
+    my $assigned_bugs = await $person_p->assigned_bugs;
+    foreach my $assigned (@$assigned_bugs) {
+        print Dumper($assigned->{title});
     }
-)->wait;
+}
+
+main()->wait;
+
+# Mojo::Promise->all( $bug_p, $person_p )->then(
+#     sub {
+#         my ( $bug, $person ) = @_;
+#         print Dumper( $bug->[0]->title );
+#         print Dumper( $bug->[0]->description );
+#         $bug->[0]->tasks->then(
+#             sub {
+#                 my $entries = shift;
+#                 print Dumper($entries);
+#             }
+#         );
+#         print Dumper( $bug->[0]->messages );
+#         print Dumper( $bug->[0]->attachments );
+#         $bug->[0]->activity->then(
+#             sub {
+#                 my $entries = shift;
+#                 print Dumper($entries);
+#             }
+#             );
+#         print Dumper( $person->[0]->person );
+#         print Dumper( $person->[0]->name );
+#         print Dumper( $person->[0]->timezone );
+#         $person->[0]->assigned_bugs->then(
+#             sub {
+#                 my $entries = shift;
+#                 print Dumper($entries);
+#             }
+#         );
+#     }
+# )->wait;
 
 # my $person_by_name = $lp->resource("Person")->find("adam-stokes");
 # print Dumper(scalar @$person_by_name == 1);
