@@ -3,7 +3,6 @@ package Net::Launchpad::Resource::Bug;
 
 use Mojo::Base 'Net::Launchpad::Client';
 use Net::Launchpad::Model::Bug;
-use Data::Dumper::Concise;
 
 sub by_id {
     my ( $self, $id ) = @_;

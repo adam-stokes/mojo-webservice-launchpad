@@ -14,7 +14,6 @@ package Net::Launchpad::Client;
 use Mojo::Base 'Net::Launchpad';
 use Mojo::Promise;
 use Mojo::URL;
-use Mojo::JSON qw(decode_json);
 use Mojo::Parameters;
 use Class::Load ':all';
 
@@ -55,19 +54,16 @@ sub post {
     my ( $self, $resource, $params ) = @_;
     my $params_hash = Mojo::Parameters->new($params);
     my $uri         = $self->build_uri($resource);
-    my $tx =
-      $self->ua->post( $uri->to_string =>
+    return $self->ua->post_p( $uri->to_string =>
           { 'Authorization' => $self->authorization_header } => form =>
           $params_hash->to_string );
-    die $tx->res->message unless $tx->result->is_success;
 }
 
 sub get {
     my ( $self, $resource ) = @_;
-    my $uri     = $self->build_uri($resource);
+    my $uri = $self->build_uri($resource);
     return $self->ua->get_p(
-        $uri->to_string =>
-        { 'Authorization' => $self->authorization_header });
+        $uri->to_string => { 'Authorization' => $self->authorization_header } );
 }
 
 sub resource {

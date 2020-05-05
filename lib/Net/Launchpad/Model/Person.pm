@@ -39,10 +39,12 @@ sub assigned_bugs {
     my $self   = shift;
     my $params = {
         'ws.op'    => 'searchTasks',
-            'assignee' => $self->person->{self_link}
+        'assignee' => $self->person->{self_link}
     };
-    my $uri = $self->client->build_uri(sprintf("%s/%s", $self->client->api_url, '~'.$self->name));
-    return $self->client->get($uri->query($params)->to_string)->then(sub { my $mojo = shift; return $mojo->res->json->{entries}});
+    my $uri = $self->client->build_uri(
+        sprintf( "%s/%s", $self->client->api_url, '~' . $self->name ) );
+    return $self->client->get( $uri->query($params)->to_string )
+      ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
 }
 
 1;
