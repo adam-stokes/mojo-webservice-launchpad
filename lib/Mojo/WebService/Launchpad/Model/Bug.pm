@@ -1,9 +1,9 @@
-package Net::Launchpad::Model::Bug;
+package Mojo::WebService::Launchpad::Model::Bug;
 
 =head1 SYNOPSIS
 
-    use Net::Launchpad::Client;
-    my $c = Net::Launchpad::Client->new(
+    use Mojo::WebService::Launchpad::Client;
+    my $c = Mojo::WebService::Launchpad::Client->new(
         consumer_key        => 'key',
         access_token        => '3243232',
         access_token_secret => '432432432'

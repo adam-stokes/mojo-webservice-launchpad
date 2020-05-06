@@ -1,14 +1,14 @@
-package Net::Launchpad::Resource::Person;
+package Mojo::WebService::Launchpad::Resource::Person;
 
-use Mojo::Base 'Net::Launchpad::Client';
-use Net::Launchpad::Model::Person;
+use Mojo::Base 'Mojo::WebService::Launchpad::Client';
+use Mojo::WebService::Launchpad::Model::Person;
 
 sub by_name {
     my ( $self, $name ) = @_;
     return $self->get( sprintf( "%s/%s", $self->api_url, $name ) )->then(
         sub {
             my $mojo = shift;
-            return Net::Launchpad::Model::Person->new(
+            return Mojo::WebService::Launchpad::Model::Person->new(
                 person => $mojo->res->json,
                 client => $self
             );
@@ -29,7 +29,7 @@ sub find {
             my $mojo = shift;
             foreach my $item ( $mojo->res->json->{entries} ) {
                 push @records,
-                  Net::Launchpad::Model::Person->new(
+                  Mojo::WebService::Launchpad::Model::Person->new(
                     person => $item,
                     client => $self
                   );

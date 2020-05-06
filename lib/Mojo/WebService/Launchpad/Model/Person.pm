@@ -1,4 +1,4 @@
-package Net::Launchpad::Model::Person;
+package Mojo::WebService::Launchpad::Model::Person;
 
 use Mojo::Base -base;
 

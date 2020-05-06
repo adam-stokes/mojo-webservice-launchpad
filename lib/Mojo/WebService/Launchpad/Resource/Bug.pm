@@ -1,15 +1,15 @@
 ## Please see file perltidy.ERR
-package Net::Launchpad::Resource::Bug;
+package Mojo::WebService::Launchpad::Resource::Bug;
 
-use Mojo::Base 'Net::Launchpad::Client';
-use Net::Launchpad::Model::Bug;
+use Mojo::Base 'Mojo::WebService::Launchpad::Client';
+use Mojo::WebService::Launchpad::Model::Bug;
 
 sub by_id {
     my ( $self, $id ) = @_;
     return $self->get( sprintf( "%s/bugs/%s", $self->api_url, $id ) )->then(
         sub {
             my $mojo = shift;
-            return Net::Launchpad::Model::Bug->new(
+            return Mojo::WebService::Launchpad::Model::Bug->new(
                 bug    => $mojo->res->json,
                 client => $self
             );

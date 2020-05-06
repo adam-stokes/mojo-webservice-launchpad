@@ -6,7 +6,7 @@
 use Mojo::Base -base, -async_await;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use Net::Launchpad::Client;
+use Mojo::WebService::Launchpad::Client;
 
 # use List::AllUtils qw(first);
 use Data::Dumper::Concise;
@@ -18,7 +18,7 @@ die "Missing envs"
 
 my $public_bug = $ENV{LP_BUG} || '1388929';
 
-my $lp = Net::Launchpad::Client->new(
+my $lp = Mojo::WebService::Launchpad::Client->new(
     consumer_key        => $ENV{LP_CONSUMER_KEY},
     access_token        => $ENV{LP_ACCESS_TOKEN},
     access_token_secret => $ENV{LP_ACCESS_TOKEN_SECRET},

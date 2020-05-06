@@ -4,7 +4,7 @@ use FindBin;
 BEGIN { unshift @INC, "$FindBin::Bin/../lib" }
 
 use Mojolicious::Lite;
-use Net::Launchpad;
+use Mojo::WebService::Launchpad;
 use Mojo::URL;
 use Data::Dumper::Concise;
 use feature qw[say];
@@ -15,7 +15,7 @@ my $consumer_key = "Net-Launchpad";
 app->helper(
     lp => sub {
         my $self = shift;
-        Net::Launchpad->new(
+        Mojo::WebService::Launchpad->new(
             consumer_key => $consumer_key,
             callback_uri => $callback_uri
         );

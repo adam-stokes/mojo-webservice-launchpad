@@ -1,4 +1,4 @@
-package Net::Launchpad;
+package Mojo::WebService::Launchpad;
 
 use Mojo::Base -base;
 use Mojo::UserAgent;

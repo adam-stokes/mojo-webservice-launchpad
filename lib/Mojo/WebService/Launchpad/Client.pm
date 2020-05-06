@@ -1,9 +1,9 @@
-package Net::Launchpad::Client;
+package Mojo::WebService::Launchpad::Client;
 
 =head1 SYNOPSIS
 
-    use Net::Launchpad::Client;
-    my $lp = Net::Launchpad::Client->new(
+    use Mojo::WebService::Launchpad::Client;
+    my $lp = Mojo::WebService::Launchpad::Client->new(
         access_token        => '32432432432',
         access_token_secret => '32432432423432423432423232',
         consumer_key        => 'a-named-key'
@@ -11,7 +11,7 @@ package Net::Launchpad::Client;
 
 =cut
 
-use Mojo::Base 'Net::Launchpad';
+use Mojo::Base 'Mojo::WebService::Launchpad';
 use Mojo::Promise;
 use Mojo::URL;
 use Mojo::Parameters;
@@ -68,7 +68,7 @@ sub get {
 
 sub resource {
     my ( $self, $class ) = @_;
-    my $model = "Net::Launchpad::Resource::$class";
+    my $model = "Mojo::WebService::Launchpad::Resource::$class";
     return load_class($model)->new($self);
 }
 
