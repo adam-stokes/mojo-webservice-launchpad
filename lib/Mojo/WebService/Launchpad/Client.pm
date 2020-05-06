@@ -11,7 +11,7 @@ package Mojo::WebService::Launchpad::Client;
 
 =cut
 
-use Mojo::Base 'Mojo::WebService::Launchpad';
+use Mojo::Base 'Mojo::WebService::Launchpad', -async_await;
 use Mojo::Promise;
 use Mojo::URL;
 use Mojo::Parameters;
@@ -50,7 +50,7 @@ sub build_uri {
     return $self->api_url->path($path);
 }
 
-sub post {
+async sub post {
     my ( $self, $resource, $params ) = @_;
     my $params_hash = Mojo::Parameters->new($params);
     my $uri         = $self->build_uri($resource);
@@ -59,7 +59,7 @@ sub post {
           $params_hash->to_string );
 }
 
-sub get {
+async sub get {
     my ( $self, $resource ) = @_;
     my $uri = $self->build_uri($resource);
     return $self->ua->get_p(

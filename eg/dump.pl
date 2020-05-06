@@ -25,15 +25,16 @@ my $lp = Mojo::WebService::Launchpad::Client->new(
 );
 
 async sub main {
-    my $bug_p    = await $lp->resource("Bug")->by_id($public_bug);
-    my $person_p = await $lp->resource("Person")->by_name("~adam-stokes");
+    my $bug_p = await $lp->resource("Bug")->by_id($public_bug);
     print Dumper( $bug_p->bug );
+
+    my $person_p = await $lp->resource("Person")->by_name("~adam-stokes");
+    print Dumper( $person_p->person );
     print Dumper( await $bug_p->tasks );
 
-    print Dumper( $person_p->person );
     my $assigned_bugs = await $person_p->assigned_bugs;
     foreach my $assigned (@$assigned_bugs) {
-        print Dumper($assigned->{title});
+        print Dumper( $assigned->{title} );
     }
 }
 

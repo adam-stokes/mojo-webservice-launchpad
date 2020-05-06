@@ -1,6 +1,6 @@
 package Mojo::WebService::Launchpad::Model::Person;
 
-use Mojo::Base -base;
+use Mojo::Base -base, -async_await;
 
 has 'person';
 has 'client';
@@ -35,7 +35,7 @@ sub timezone {
     return $self->person->{time_zone};
 }
 
-sub assigned_bugs {
+async sub assigned_bugs {
     my $self   = shift;
     my $params = {
         'ws.op'    => 'searchTasks',

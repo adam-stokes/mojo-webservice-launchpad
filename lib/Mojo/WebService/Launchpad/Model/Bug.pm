@@ -17,7 +17,7 @@ package Mojo::WebService::Launchpad::Model::Bug;
 
 =cut
 
-use Mojo::Base -base;
+use Mojo::Base -base, -async_await;
 
 has 'bug';
 has 'client';
@@ -57,41 +57,41 @@ sub last_updated {
     return $self->bug->{date_last_updated};
 }
 
-sub tasks {
+async sub tasks {
     my $self = shift;
     return $self->client->get( $self->bug->{bug_tasks_collection_link} )
       ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
 }
 
-sub messages {
+async sub messages {
     my $self = shift;
     return $self->client->get( $self->bug->{messages_collection_link} )
-        ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
+      ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
 }
 
-sub attachments {
+async sub attachments {
     my $self = shift;
     return $self->client->get( $self->bug->{attachments_collection_link} )
-        ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
+      ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
 }
 
-sub linked_branches {
+async sub linked_branches {
     my $self = shift;
     return $self->client->get( $self->bug->{linked_branches_collection_link} )
-        ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
+      ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
 }
 
-sub linked_merge_proposals {
+async sub linked_merge_proposals {
     my $self = shift;
     return $self->client->get(
         $self->bug->{linked_merge_proposals_collection_link} )
-        ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
+      ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
 }
 
-sub activity {
+async sub activity {
     my $self = shift;
     return $self->client->get( $self->bug->{activity_collection_link} )
-        ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
+      ->then( sub { my $mojo = shift; return $mojo->res->json->{entries} } );
 }
 
 1;
