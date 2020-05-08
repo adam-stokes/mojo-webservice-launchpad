@@ -8,13 +8,13 @@ use Mojo::Parameters;
 our $VERSION = '0.01';
 
 has 'staging';
-has 'consumer_key' => 'perl-net-launchpad';
+has 'consumer_key' => 'mojo-webservice-launchpad';
 has 'callback_uri';
 
 has ua => sub {
     my $self = shift;
     my $ua   = Mojo::UserAgent->new;
-    $ua->transactor->name("perl-net-launchpad");
+    $ua->transactor->name("mojo-webservice-launchpad");
     return $ua;
 };
 
@@ -101,7 +101,7 @@ sub access_token {
 
 =head1 NAME
 
-Net-Launchpad - API Client to launchpad.net
+Mojo-WebService-Launchpad - API Client to launchpad.net
 
 =head1 AUTHOR
 
