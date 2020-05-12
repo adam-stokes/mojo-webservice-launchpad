@@ -1,0 +1,45 @@
+---
+abstract: 'Asynchronous API Client to launchpad.net'
+author:
+  - 'Adam Stokes <adamjs@cpan.org>'
+build_requires:
+  Class::Load: '0'
+  Data::Dumper::Concise: '0'
+  FindBin: '0'
+  Future::AsyncAwait: '0'
+  IO::Socket::SSL: '0'
+  Mojolicious: '0'
+  Pod::Elemental::Transformer::List: '0'
+  Pod::Weaver::Section::WarrantyDisclaimer: '0'
+  Role::Tiny: '0'
+  Test::Exception: '0'
+  Test::Mojo: '0'
+  Test::More: '0'
+  Test::NoTabs: '0'
+  lib: '0'
+  strict: '0'
+  warnings: '0'
+configure_requires:
+  ExtUtils::MakeMaker: '0'
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 6.014, CPAN::Meta::Converter version 2.150010'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: Mojo-WebService-Launchpad
+requires:
+  Class::Load: '0'
+  Mojo::Base: '0'
+  Mojo::Parameters: '0'
+  Mojo::Promise: '0'
+  Mojo::URL: '0'
+  Mojo::UserAgent: '0'
+resources:
+  homepage: https://github.com/battlemidget/mojo-webservice-launchpad
+  repository: https://github.com/battlemidget/mojo-webservice-launchpad.git
+version: '0.001'
+x_authority: cpan:ADAMJS
+x_generated_by_perl: v5.30.0
+x_serialization_backend: 'YAML::Tiny version 1.73'
+x_spdx_expression: 'Artistic-1.0-Perl OR GPL-1.0-or-later'

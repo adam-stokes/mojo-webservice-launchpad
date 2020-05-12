@@ -19,7 +19,7 @@ Net-*
 _build_params
 perltidy.LOG
 local/
-/Net-Launchpad-*
+/Mojo-WebService-Launchpad-*
 /.build
 /_build_params
 /Build

@@ -1,5 +1,7 @@
 package Mojo::WebService::Launchpad::Model::Bug;
 
+# ABSTRACT: Launchpad Model
+
 =head1 SYNOPSIS
 
     use Mojo::WebService::Launchpad::Client;

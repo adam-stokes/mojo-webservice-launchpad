@@ -1,5 +1,6 @@
-## Please see file perltidy.ERR
 package Mojo::WebService::Launchpad::Resource::Person;
+
+# ABSTRACT: Person Resource
 
 use Mojo::Base 'Mojo::WebService::Launchpad::Client', -async_await;
 use Mojo::WebService::Launchpad::Model::Person;

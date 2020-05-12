@@ -1,0 +1,18 @@
+# NAME
+
+Mojo::WebService::Launchpad - Asynchronous API Client to launchpad.net
+
+# VERSION
+
+version 0.001
+
+# AUTHOR
+
+Adam Stokes <adamjs@cpan.org>
+
+# COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2020 by Adam Stokes.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.

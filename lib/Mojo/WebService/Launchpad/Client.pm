@@ -1,15 +1,6 @@
 package Mojo::WebService::Launchpad::Client;
 
-=head1 SYNOPSIS
-
-    use Mojo::WebService::Launchpad::Client;
-    my $lp = Mojo::WebService::Launchpad::Client->new(
-        access_token        => '32432432432',
-        access_token_secret => '32432432423432423432423232',
-        consumer_key        => 'a-named-key'
-    );
-
-=cut
+# ABSTRACT: Asynchronous API Client to launchpad.net
 
 use Mojo::Base 'Mojo::WebService::Launchpad', -async_await;
 use Mojo::Promise;

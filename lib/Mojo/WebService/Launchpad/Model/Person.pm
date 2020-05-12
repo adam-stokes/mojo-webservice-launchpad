@@ -1,5 +1,7 @@
 package Mojo::WebService::Launchpad::Model::Person;
 
+# ABSTRACT: Launchpad Person
+
 use Mojo::Base -base, -async_await;
 
 has 'person';

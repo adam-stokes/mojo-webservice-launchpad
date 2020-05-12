@@ -1,11 +1,11 @@
 package Mojo::WebService::Launchpad;
 
+# ABSTRACT: Asynchronous API Client to launchpad.net
+
 use Mojo::Base -base;
 use Mojo::UserAgent;
 use Mojo::URL;
 use Mojo::Parameters;
-
-our $VERSION = '0.01';
 
 has 'staging';
 has 'consumer_key' => 'mojo-webservice-launchpad';
@@ -98,11 +98,3 @@ sub access_token {
 }
 
 1;
-
-=head1 NAME
-
-Mojo-WebService-Launchpad - API Client to launchpad.net
-
-=head1 AUTHOR
-
-Adam Stokes E<lt>adamjs@cpan.orgE<gt>
