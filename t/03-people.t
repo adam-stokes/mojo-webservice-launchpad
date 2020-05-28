@@ -15,18 +15,18 @@ plan skip_all => 'must export launchpad credentials to enable these tests'
 diag("testing people api");
 
 # replace with the actual test
-use_ok('Net::Launchpad::Client');
+use_ok('Mojo::WebService::Launchpad::Client');
 
-my $lp = Net::Launchpad::Client->new(
+my $lp = Mojo::WebService::Launchpad::Client->new(
     consumer_key        => $ENV{LP_CONSUMER_KEY},
     access_token        => $ENV{LP_ACCESS_TOKEN},
     access_token_secret => $ENV{LP_ACCESS_TOKEN_SECRET}
 );
 
-use_ok('Net::Launchpad::Model::Person');
+use_ok('Mojo::WebService::Launchpad::Model::Person');
 
 # person
-my $person = $lp->resource('Person')->by_name('~adam-stokes');
+my $person = await $lp->resource('Person')->by_name('~adam-stokes');
 ok(
     $person->name eq 'adam-stokes',
     $person->name . " found correctly."
@@ -34,7 +34,7 @@ ok(
 
 # my $query           = Net::Launchpad::Query->new( lpc => $lp );
 # my $person_by_email = $query->people->get_by_email('adam.stokes@ubuntu.com');
-my $person_by_fuzzy = $lp->resource('Person')->find('adam-stokes');
+my $person_by_fuzzy = await $lp->resource('Person')->find('adam-stokes');
 ok(
     scalar @$person_by_fuzzy == 1,
     "a least one 'adam-stokes' found correctly."
