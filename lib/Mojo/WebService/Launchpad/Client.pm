@@ -8,8 +8,7 @@ use Mojo::URL;
 use Mojo::Parameters;
 use Class::Load ':all';
 
-has 'access_token';
-has 'access_token_secret';
+has ['access_token', 'access_token_secret'];
 
 sub authorization_header {
     my $self   = shift;
